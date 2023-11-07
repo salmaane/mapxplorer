@@ -1,4 +1,4 @@
-package com.mapxplorer.controller;
+package com.salmane.mapxplorer.controller;
 
 import javafx.fxml.FXML;
 

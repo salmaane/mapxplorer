@@ -1,4 +1,4 @@
-package com.mapxplorer;
+package com.salmane.mapxplorer;
 
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
@@ -11,7 +11,7 @@ import java.io.IOException;
 public class MapXplorerApp extends Application {
     @Override
     public void start(Stage stage) throws IOException {
-        FXMLLoader loader = new FXMLLoader(MapXplorerApp.class.getResource("view/mainView.fxml"));
+        FXMLLoader loader = new FXMLLoader(MapXplorerApp.class.getResource("fxml/mainView.fxml"));
         Scene scene = new Scene(loader.load(), 900 , 480);
         stage.setScene(scene);
 
