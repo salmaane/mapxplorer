@@ -2,14 +2,3 @@
     -fx-background-color: #fff;
     -fx-background-radius: 10px;
 }
-.sidebar {
-    -fx-background-color: #fff;
-    -fx-effect: dropshadow(two-pass-box, rgba(0,0,0,0.2), 15, 0, 0, 0);
-}
-.sidebar-opt {
-    -fx-fill: #999;
-    -fx-cursor: 'hand';
-}
-.tooltip {
-    -fx-font-size: 12px;
-}

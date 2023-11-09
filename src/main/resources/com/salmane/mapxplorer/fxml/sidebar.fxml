@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.Cursor?>
+<?import javafx.scene.control.Separator?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.VBox?>
+
+<AnchorPane fx:id="sidebar" prefHeight="746.0" prefWidth="50.0" styleClass="sidebar" stylesheets="@../styles/sidebar.css" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/21" fx:controller="com.salmane.mapxplorer.controller.SidebarController">
+    <children>
+        <FontAwesomeIconView fx:id="menuIcon" glyphName="BARS" layoutX="16.0" layoutY="32.0" size="20" wrappingWidth="8.60953140258789">
+            <cursor>
+                <Cursor fx:constant="HAND" />
+            </cursor>
+        </FontAwesomeIconView>
+        <VBox layoutX="15.0" layoutY="291.0">
+            <children>
+                <FontAwesomeIconView fx:id="homeIcon" fill="#073bb0" glyphName="HOME" size="20" wrappingWidth="8.60953140258789">
+                    <VBox.margin>
+                        <Insets top="15.0" />
+                    </VBox.margin>
+                    <cursor>
+                        <Cursor fx:constant="HAND" />
+                    </cursor>
+                </FontAwesomeIconView>
+                <FontAwesomeIconView fx:id="savedIcon" glyphName="BOOKMARK" size="20" styleClass="sidebar-opt" wrappingWidth="8.60953140258789">
+                    <VBox.margin>
+                        <Insets left="2.0" top="15.0" />
+                    </VBox.margin>
+                </FontAwesomeIconView>
+                <FontAwesomeIconView fx:id="offlineIcon" glyphName="DOWNLOAD" size="20" styleClass="sidebar-opt" wrappingWidth="8.60953140258789">
+                    <VBox.margin>
+                        <Insets top="15.0" />
+                    </VBox.margin>
+                </FontAwesomeIconView>
+                <Separator prefWidth="20.0">
+                    <VBox.margin>
+                        <Insets bottom="15.0" top="15.0" />
+                    </VBox.margin>
+                </Separator>
+                <FontAwesomeIconView fx:id="aboutIcon" fill="#4b4b4b" glyphName="INFO" layoutX="10.0" layoutY="113.0" size="23" wrappingWidth="8.60953140258789">
+                    <VBox.margin>
+                        <Insets left="4.0" />
+                    </VBox.margin>
+                    <cursor>
+                        <Cursor fx:constant="HAND" />
+                    </cursor>
+                </FontAwesomeIconView>
+            </children>
+        </VBox>
+    </children>
+</AnchorPane>
