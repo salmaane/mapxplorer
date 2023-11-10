@@ -1,11 +1,31 @@
 .sidebar {
     -fx-background-color: #fff;
     -fx-effect: dropshadow(two-pass-box, rgba(0,0,0,0.2), 15, 0, 0, 0);
+
 }
-.sidebar-opt {
-    -fx-fill: #999;
-    -fx-cursor: 'hand';
+.menu-icon {
+    -fx-fill: #555;
 }
 .tooltip {
     -fx-font-size: 12px;
+}
+.menu-item {
+    -fx-border-style: solid none none none;
+    -fx-border-width: 0.5;
+    -fx-border-color: #ccc;
+    -fx-cursor: hand;
+}
+
+.menu-item .label {
+    -fx-font-size:14;
+    -fx-font-weight: bold;
+    -fx-text-fill: #555
+}
+
+.menu-item:hover {
+    -fx-background-color: #073bb0;
+}
+.menu-item:hover .label, .menu-item:hover .menu-icon {
+    -fx-text-fill: #fff;
+    -fx-fill: #fff;
 }
