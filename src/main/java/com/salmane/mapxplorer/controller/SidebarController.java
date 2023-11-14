@@ -19,12 +19,12 @@ public class SidebarController {
     public void handleToggleMenu(ActionEvent event) {
         if(collapsed) {
             sidebar.setPrefWidth(230);
-            sidebar.setClip(new Rectangle(230, 746));
+            sidebar.setClip(new Rectangle(240, 746));
             collapsed = false;
             return;
         }
         sidebar.setPrefWidth(43);
-        sidebar.setClip(new Rectangle(43, 746));
+        sidebar.setClip(new Rectangle(45, 746));
         collapsed = true;
     }
 
