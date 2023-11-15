@@ -3,6 +3,7 @@ module com.salmane.mapxplorer {
     requires javafx.fxml;
 
     requires de.jensd.fx.glyphs.fontawesome;
+    requires javafx.web;
 
     opens com.salmane.mapxplorer to javafx.fxml;
     exports com.salmane.mapxplorer;
