@@ -1,7 +1,9 @@
 .sidebar {
     -fx-background-color: #fff;
     -fx-effect: dropshadow(two-pass-box, rgba(0,0,0,0.2), 15, 0, 0, 0);
-
+    -fx-border-style: none solid none none;
+    -fx-border-width: 0 0.5 0 0;
+    -fx-border-color: #ccc;
 }
 .menu-icon {
     -fx-fill: #555;
