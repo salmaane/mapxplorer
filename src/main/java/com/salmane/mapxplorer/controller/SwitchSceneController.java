@@ -22,6 +22,7 @@ public class SwitchSceneController {
         root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/com/salmane/mapxplorer/fxml/"+fxml)));
         stage = (Stage)((Node)event.getSource()).getScene().getWindow();
         scene = new Scene(root);
+        scene.getStylesheets().add(String.valueOf(getClass().getResource("/com/salmane/mapxplorer/styles/index.css")));
         stage.setScene(scene);
         centerStage();
         stage.show();

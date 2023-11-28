@@ -12,19 +12,8 @@ public class LeafletMapController {
 
     public void initialize() {
         engine = webview.getEngine();
-        engine.load(String.valueOf(getClass().getResource("/com/salmane/mapxplorer/javascript/leaflet.html")));
+        engine.setJavaScriptEnabled(true);
+        engine.load(String.valueOf(getClass().getResource("/com/salmane/mapxplorer/javascript/index.html")));
     }
 
-
 }
-
-
-
-
-
-
-
-
-
-
-//        webEngine.load(String.valueOf(getClass().getResource("/com/salmane/mapxplorer/javascript/leaflet.html")));
