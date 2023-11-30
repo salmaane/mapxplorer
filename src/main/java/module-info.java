@@ -8,6 +8,7 @@ module com.salmane.mapxplorer {
     requires java.net.http;
     requires com.google.gson;
 
+    opens com.salmane.mapxplorer.model to com.google.gson;
     opens com.salmane.mapxplorer to javafx.fxml;
     exports com.salmane.mapxplorer;
     exports com.salmane.mapxplorer.controller;

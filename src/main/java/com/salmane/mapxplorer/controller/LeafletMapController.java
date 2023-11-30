@@ -1,5 +1,8 @@
 package com.salmane.mapxplorer.controller;
 
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
+import com.salmane.mapxplorer.model.Location;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.TextField;
@@ -8,12 +11,13 @@ import javafx.scene.web.WebView;
 import org.controlsfx.control.textfield.AutoCompletionBinding;
 
 import java.io.IOException;
+import java.lang.reflect.Type;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
-import java.util.HashSet;
+import java.util.ArrayList;
 
 public class LeafletMapController {
 
@@ -23,12 +27,13 @@ public class LeafletMapController {
     @FXML
     public TextField searchbar;
     private AutoCompletionBinding<String> autoCompletionBinding;
-    private HashSet<String> possibleSuggestions;
+    private ArrayList<Location> possibleSuggestions;
 
     private void handleSearchEvent(ActionEvent event) {
         HttpClient httpClient = HttpClient.newHttpClient();
         HttpRequest getRequest = null;
         HttpResponse<String> response = null;
+        Gson gson = new Gson();
 
         String format = "json";
         String limit = "5";
@@ -55,14 +60,15 @@ public class LeafletMapController {
             throw new RuntimeException(e);
         }
 
-        System.out.println(response.body());
+        Type locationType = new TypeToken<ArrayList<Location>>(){}.getType();
+        possibleSuggestions = gson.fromJson(response.body(), locationType);
+
+        System.out.println(possibleSuggestions.get(0).getDisplay_name());
     }
 
     public void initialize() {
 
-        searchbar.setOnAction(this::handleSearchEvent );
-
-//        TextFields.bindAutoCompletion(searchbar, possibleSuggestions);
+        searchbar.setOnAction(this::handleSearchEvent);
 
         engine = webview.getEngine();
         webview.setCache(true);
