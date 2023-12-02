@@ -3,9 +3,9 @@ package com.salmane.mapxplorer.model;
 import com.google.gson.annotations.SerializedName;
 
 public class Location {
-    private long place_id;
-    private double lon;
-    private double lat;
+    private Long place_id;
+    private Double lon;
+    private Double lat;
     private String name;
     private String display_name;
     @SerializedName("class")
@@ -15,6 +15,11 @@ public class Location {
     private String[] boundingbox;
     private Address address;
     public class Address {
+        private String highway;
+        private String amenity;
+        private String road;
+        private String suburb;
+        private String city;
         private String municipality;
         private String county;
         private String state_district;
