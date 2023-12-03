@@ -7,5 +7,21 @@ function defaultMode() {
         attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>'
     }).addTo(map);
 }
-
 defaultMode();
+
+
+let searchMarker = null;
+function goToLocation(location) {
+    map.setView([location.lat, location.lon]);
+    if(searchMarker) {
+        searchMarker.remove();
+    }
+
+    searchMarker = L.marker([location.lat, location.lon], {
+        riseOnHover: true,
+        bounceOnAdd: false
+    }).addTo(map);
+
+    searchMarker.bindPopup("<strong>"+ location.name + "</strong>");
+}
+
