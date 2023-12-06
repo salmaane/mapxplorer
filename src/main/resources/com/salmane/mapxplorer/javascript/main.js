@@ -12,7 +12,7 @@ defaultMode();
 
 let searchMarker = null;
 function goToLocation(location) {
-    map.setView([location.lat, location.lon]);
+    map.setView([location.lat, location.lon], 13);
     if(searchMarker) {
         searchMarker.remove();
     }

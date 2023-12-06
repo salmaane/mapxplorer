@@ -87,4 +87,9 @@ public class Location {
     public Address getAddress() {
         return address;
     }
+
+    @Override
+    public String toString() {
+        return getName();
+    }
 }

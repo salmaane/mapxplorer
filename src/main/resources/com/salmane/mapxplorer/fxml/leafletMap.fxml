@@ -1,14 +1,21 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView?>
+<?import java.lang.String?>
+<?import javafx.scene.control.ListView?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.web.WebView?>
 
-<AnchorPane id="mainContainer" minWidth="1000.0" prefHeight="746.0" style="-fx-background-color: #aaa;" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.salmane.mapxplorer.controller.LeafletMapController">
+<AnchorPane minWidth="1150.0" prefHeight="746.0" style="-fx-background-color: #aaa;" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.salmane.mapxplorer.controller.LeafletMapController">
    <children>
       <WebView fx:id="webview" layoutX="410.0" layoutY="273.0" prefHeight="200.0" prefWidth="200.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
-      <TextField fx:id="searchbar"  layoutX="274.0" layoutY="34.0" promptText="Search here" styleClass="searchbar" stylesheets="@../styles/searchbar.css" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="10.0" />
+      <TextField fx:id="searchbar" layoutX="274.0" layoutY="34.0" promptText="Search here" styleClass="searchbar" stylesheets="@../styles/searchbar.css" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="10.0" />
       <FontAwesomeIconView fill="#888888" glyphName="SEARCH" layoutX="26.0" layoutY="32.0" />
+      <ListView fx:id="autocompleteList" layoutX="58.0" layoutY="52.0" prefHeight="230.0" prefWidth="1132.0" stylesheets="@../styles/listview.css" visible="false" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0">
+         <styleClass>
+            <String fx:value="listview" />
+            <String fx:value="list-cell" />
+         </styleClass></ListView>
    </children>
 </AnchorPane>

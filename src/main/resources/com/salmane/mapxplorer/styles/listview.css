@@ -1,0 +1,21 @@
+.listview {
+    -fx-background-color: #fff;
+    -fx-border-style: none;
+    -fx-effect: dropshadow(two-pass-box, rgba(0,0,0,0.3), 12, 0, 0, 0);
+    -fx-font-size: 15;
+    -fx-background-radius: 4px
+}
+
+.list-cell:filled:hover {
+    -fx-background-color: #ffe89b;
+}
+
+.list-cell:focused:selected {
+    -fx-background-color: #225be5;
+    -fx-font-weight: bold;
+}
+
+.list-cell:odd {
+    -fx-background-color: #fff;
+}
+

@@ -12,5 +12,6 @@ module com.salmane.mapxplorer {
     opens com.salmane.mapxplorer to javafx.fxml;
     exports com.salmane.mapxplorer;
     exports com.salmane.mapxplorer.controller;
+    exports com.salmane.mapxplorer.model;
     opens com.salmane.mapxplorer.controller to javafx.fxml;
 }
