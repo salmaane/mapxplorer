@@ -3,6 +3,7 @@ package com.salmane.mapxplorer.controller;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.salmane.mapxplorer.model.Location;
+import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView;
 import javafx.animation.PauseTransition;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
@@ -34,10 +35,34 @@ public class LeafletMapController {
     public TextField searchbar;
     @FXML
     public ListView<Location> autocompleteList;
+    @FXML
+    public FontAwesomeIconView closeIcon;
     private final Gson gson = new Gson();
     private Timer timer = new Timer();
     private ArrayList<Location> possibleSuggestions;
+    private Location activeLocation = null;
 
+    public void initialize() {
+        searchbar.setOnKeyReleased(this::handleSearchEvent);
+        autocompleteList.setOnMouseClicked(this::handleAutocompleteSelection);
+
+        PauseTransition delay = new PauseTransition(Duration.seconds(0.2));
+        delay.setOnFinished(e -> autocompleteList.setVisible(false));
+        searchbar.focusedProperty().addListener((observable, oldValue, newValue) -> {
+            if (!newValue) {
+                if(activeLocation != null) searchbar.setText(activeLocation.getName());
+                delay.playFromStart();
+            } else {
+                handleSearchEvent(new KeyEvent(KeyEvent.KEY_PRESSED, "", "", KeyCode.UNDEFINED, false, false, false, false));
+            }
+        });
+
+        closeIcon.setOnMouseClicked(this::removeLocationMarker);
+
+        engine = webview.getEngine();
+        webview.setCache(true);
+        engine.load(String.valueOf(getClass().getResource("/com/salmane/mapxplorer/javascript/index.html")));
+    }
 
     private void handleSearchEvent(KeyEvent event) {
         timer.cancel();
@@ -101,32 +126,24 @@ public class LeafletMapController {
         engine.executeScript("goToLocation(" + gson.toJson(location, Location.class) + ")");
     }
 
-    public void initialize() {
-        searchbar.setOnKeyReleased(this::handleSearchEvent);
-        autocompleteList.setOnMouseClicked(this::handleAutocompleteSelection);
-
-        PauseTransition delay = new PauseTransition(Duration.seconds(0.3));
-        delay.setOnFinished(e -> autocompleteList.setVisible(false));
-        searchbar.focusedProperty().addListener((observable, oldValue, newValue) -> {
-            if (!newValue) {
-                delay.playFromStart();
-            } else {
-                handleSearchEvent(new KeyEvent(KeyEvent.KEY_PRESSED, "", "", KeyCode.UNDEFINED, false, false, false, false));
-            }
-        });
-
-        engine = webview.getEngine();
-        webview.setCache(true);
-        engine.load(String.valueOf(getClass().getResource("/com/salmane/mapxplorer/javascript/index.html")));
-    }
-
     private void handleAutocompleteSelection(MouseEvent event) {
         Location selectedLocation = autocompleteList.getSelectionModel().getSelectedItem();
         if (selectedLocation != null) {
             searchbar.setText(selectedLocation.getName());
             autocompleteList.setVisible(false);
+            activeLocation = selectedLocation;
+            closeIcon.setVisible(true);
             GoToLocation(selectedLocation);
         }
     }
 
+    private void removeLocationMarker(MouseEvent event) {
+        if(activeLocation != null) {
+            engine.executeScript("removeLocationMarker()");
+            activeLocation = null;
+        }
+        searchbar.setText("");
+        closeIcon.setVisible(false);
+        autocompleteList.setVisible(false);
+    }
 }

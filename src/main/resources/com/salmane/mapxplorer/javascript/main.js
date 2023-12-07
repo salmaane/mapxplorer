@@ -25,3 +25,6 @@ function goToLocation(location) {
     searchMarker.bindPopup("<strong>"+ location.name + "</strong>");
 }
 
+function removeLocationMarker() {
+    map.removeLayer(searchMarker);
+}
