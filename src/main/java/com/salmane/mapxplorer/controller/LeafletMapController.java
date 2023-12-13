@@ -9,6 +9,7 @@ import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
+import javafx.scene.control.Tooltip;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
@@ -37,10 +38,17 @@ public class LeafletMapController {
     public ListView<Location> autocompleteList;
     @FXML
     public FontAwesomeIconView closeIcon;
+    @FXML
+    public FontAwesomeIconView myLocationIcon;
+    @FXML
+    public Tooltip myLocationTooltip;
+    @FXML
+    public FontAwesomeIconView returnToLocationIcon;
     private final Gson gson = new Gson();
     private Timer timer = new Timer();
     private ArrayList<Location> possibleSuggestions;
     private Location activeLocation = null;
+    private Location myLocation;
 
     public void initialize() {
         searchbar.setOnKeyReleased(this::handleSearchEvent);
@@ -58,6 +66,11 @@ public class LeafletMapController {
         });
 
         closeIcon.setOnMouseClicked(this::removeLocationMarker);
+        returnToLocationIcon.setOnMouseClicked(event -> GoToLocation(activeLocation));
+
+        myLocationTooltip.setShowDelay(new Duration(100));
+        myLocationTooltip.setShowDuration(new Duration(900));
+        myLocationIcon.setOnMouseClicked(this::goToDeviceLocation);
 
         engine = webview.getEngine();
         webview.setCache(true);
@@ -133,6 +146,7 @@ public class LeafletMapController {
             autocompleteList.setVisible(false);
             activeLocation = selectedLocation;
             closeIcon.setVisible(true);
+            returnToLocationIcon.setVisible(true);
             GoToLocation(selectedLocation);
         }
     }
@@ -144,6 +158,14 @@ public class LeafletMapController {
         }
         searchbar.setText("");
         closeIcon.setVisible(false);
+        returnToLocationIcon.setVisible(false);
         autocompleteList.setVisible(false);
+    }
+
+    private void goToDeviceLocation(MouseEvent event) {
+        myLocation = new Location();
+        myLocation.setLat(33.589886);
+        myLocation.setLon(-7.603869);
+        engine.executeScript("goToDeviceLocation("+ gson.toJson(myLocation, Location.class) +")");
     }
 }

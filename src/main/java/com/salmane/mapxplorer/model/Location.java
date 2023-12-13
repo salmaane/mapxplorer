@@ -87,6 +87,12 @@ public class Location {
     public Address getAddress() {
         return address;
     }
+    public void setLon(Double lon) {
+        this.lon = lon;
+    }
+    public void setLat(Double lat) {
+        this.lat = lat;
+    }
 
     @Override
     public String toString() {

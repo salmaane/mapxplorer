@@ -2,16 +2,23 @@
 
 <?import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView?>
 <?import java.lang.String?>
+<?import javafx.geometry.Insets?>
 <?import javafx.scene.Cursor?>
+<?import javafx.scene.control.Button?>
 <?import javafx.scene.control.ListView?>
 <?import javafx.scene.control.TextField?>
+<?import javafx.scene.control.Tooltip?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.VBox?>
 <?import javafx.scene.web.WebView?>
 
 <AnchorPane minWidth="1150.0" prefHeight="746.0" style="-fx-background-color: #aaa;" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.salmane.mapxplorer.controller.LeafletMapController">
    <children>
       <WebView fx:id="webview" layoutX="410.0" layoutY="273.0" prefHeight="200.0" prefWidth="200.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
-      <TextField fx:id="searchbar" layoutX="274.0" layoutY="34.0" promptText="Search here" styleClass="searchbar" stylesheets="@../styles/searchbar.css" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="10.0" />
+      <TextField fx:id="searchbar" layoutX="274.0" layoutY="34.0" promptText="Search here" styleClass="searchbar" stylesheets="@../styles/searchbar.css" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="10.0">
+         <padding>
+            <Insets right="30.0" />
+         </padding></TextField>
       <FontAwesomeIconView fill="#888888" glyphName="SEARCH" layoutX="26.0" layoutY="32.0" />
       <ListView fx:id="autocompleteList" layoutX="58.0" layoutY="52.0" prefHeight="230.0" prefWidth="1132.0" stylesheets="@../styles/listview.css" visible="false" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0">
          <styleClass>
@@ -22,5 +29,25 @@
          <cursor>
             <Cursor fx:constant="HAND" />
          </cursor></FontAwesomeIconView>
+      <VBox alignment="CENTER" layoutX="11.2" layoutY="230.0" prefHeight="263.0" prefWidth="34.0" styleClass="nav-bar" stylesheets="@../styles/navigationBar.css" AnchorPane.leftAnchor="10.0">
+         <children>
+            <Button mnemonicParsing="false" prefHeight="31.0" prefWidth="31.0">
+               <graphic>
+                  <FontAwesomeIconView fx:id="myLocationIcon" glyphName="MAP_PIN" size="20" styleClass="icon">
+                     <cursor>
+                        <Cursor fx:constant="HAND" />
+                     </cursor>
+                  </FontAwesomeIconView>
+               </graphic>
+               <tooltip>
+                  <Tooltip fx:id="myLocationTooltip" autoHide="true" text="My location" />
+               </tooltip>
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor>
+            </Button>
+         </children>
+      </VBox>
+      <FontAwesomeIconView fx:id="returnToLocationIcon" fill="#444444" glyphName="ARROW_UP" layoutX="1086.0" layoutY="34.0" size="19" visible="false" />
    </children>
 </AnchorPane>
