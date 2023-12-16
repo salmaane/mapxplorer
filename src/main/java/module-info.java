@@ -7,6 +7,7 @@ module com.salmane.mapxplorer {
     requires org.controlsfx.controls;
     requires java.net.http;
     requires com.google.gson;
+    requires java.dotenv;
 
     opens com.salmane.mapxplorer.model to com.google.gson;
     opens com.salmane.mapxplorer to javafx.fxml;

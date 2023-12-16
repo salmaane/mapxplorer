@@ -8,6 +8,7 @@ import com.google.gson.reflect.TypeToken;
 import com.salmane.mapxplorer.model.Location;
 import com.salmane.mapxplorer.model.PlacePredictions;
 import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView;
+import io.github.cdimascio.dotenv.Dotenv;
 import javafx.animation.PauseTransition;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
@@ -51,8 +52,10 @@ public class LeafletMapController {
     public FontAwesomeIconView returnToLocationIcon;
     private final Gson gson = new Gson();
     private Timer timer = new Timer();
-    HttpClient httpClient = HttpClient.newHttpClient();
-    HttpRequest getRequest = null;
+    private final HttpClient httpClient = HttpClient.newHttpClient();
+    private HttpRequest getRequest = null;
+    private final Dotenv dotenv = Dotenv.load();
+    String googleApiKey = dotenv.get("GOOGLE_API_KEY");
     private ArrayList<PlacePredictions> possibleSuggestions;
     private Location activeLocation = null;
     private Location myLocation = null;
@@ -98,14 +101,12 @@ public class LeafletMapController {
                 }
 
                 HttpResponse<String> response = null;
-                String apiKey = "";
 
                 try {
-
                     getRequest = HttpRequest.newBuilder()
                             .uri(new URI(
                                     "https://maps.googleapis.com/maps/api/place/autocomplete/json?"
-                                            + "key=" + apiKey
+                                            + "key=" + googleApiKey
                                             + "&input=" + searchbar.getText().replaceAll("\\s","+")
                             )).GET()
                             .build();
@@ -148,14 +149,12 @@ public class LeafletMapController {
 
             CompletableFuture.supplyAsync(() -> {
                 try {
-                    String apiKey = "";
                     String fields = "*";
-
                     HttpRequest getRequest = HttpRequest.newBuilder()
                             .uri(new URI(
                                     "https://places.googleapis.com/v1/places/"
                                             + selectedPrediction.getPlace_id() + "?"
-                                            + "key=" + apiKey
+                                            + "key=" + googleApiKey
                                             + "&fields=" + fields
                             )).GET()
                             .build();
