@@ -12,17 +12,17 @@ defaultMode();
 // Pan the map to the given location
 let searchMarker = null;
 function goToLocation(location) {
-    map.setView([location.lat, location.lon], 13);
+    map.setView([location.location.latitude, location.location.longitude], 13);
     if(searchMarker) {
         searchMarker.remove();
     }
 
-    searchMarker = L.marker([location.lat, location.lon], {
+    searchMarker = L.marker([location.location.latitude, location.location.longitude], {
         riseOnHover: true,
         bounceOnAdd: false
     }).addTo(map);
 
-    searchMarker.bindPopup("<strong>"+ location.name + "</strong>");
+    searchMarker.bindPopup("<strong>"+ location.formattedAddress + "</strong>");
 }
 
 // Remove marker from map
@@ -37,7 +37,7 @@ function getDeviceLocation() {
         navigator.geolocation.getCurrentPosition(
             function (position) {
                 location = {
-                    lat: position.coords.latitude,
+                    latitude: position.coords.latitude,
                     lon: position.coords.longitude
                 }
                 // goToDeviceLocation(location)
@@ -56,7 +56,7 @@ getDeviceLocation();
 // Pan map to user device location
 let currentLocationMarker = null;
 function goToDeviceLocation(location) {
-    map.setView([location.lat, location.lon], 13);
+    map.setView([location.location.latitude, location.location.longitude], 13);
     if(currentLocationMarker) {
         currentLocationMarker.remove();
     }
@@ -66,7 +66,7 @@ function goToDeviceLocation(location) {
         iconSize: [34, 34],
     });
 
-    currentLocationMarker = L.marker([location.lat, location.lon], {
+    currentLocationMarker = L.marker([location.location.latitude, location.location.longitude], {
         riseOnHover: true,
         bounceOnAdd: false,
         icon: icon,

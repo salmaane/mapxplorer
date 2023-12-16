@@ -48,6 +48,9 @@
             </Button>
          </children>
       </VBox>
-      <FontAwesomeIconView fx:id="returnToLocationIcon" fill="#444444" glyphName="ARROW_UP" layoutX="1086.0" layoutY="34.0" size="19" visible="false" />
+      <FontAwesomeIconView fx:id="returnToLocationIcon" fill="#444444" glyphName="ARROW_UP" layoutX="1086.0" layoutY="34.0" size="19" visible="false">
+         <cursor>
+            <Cursor fx:constant="HAND" />
+         </cursor></FontAwesomeIconView>
    </children>
 </AnchorPane>

@@ -1,101 +1,116 @@
 package com.salmane.mapxplorer.model;
 
-import com.google.gson.annotations.SerializedName;
-
 public class Location {
-    private Long place_id;
-    private Double lon;
-    private Double lat;
-    private String name;
-    private String display_name;
-    @SerializedName("class")
-    private String _class;
-    private String addresstype;
-    private String type;
-    private String[] boundingbox;
-    private Address address;
-    public class Address {
-        private String highway;
-        private String amenity;
-        private String road;
-        private String suburb;
-        private String city;
-        private String municipality;
-        private String county;
-        private String state_district;
-        @SerializedName("ISO3166-2-lvl5")
-        private String ISO_format_lvl5;
-        @SerializedName("ISO3166-2-lvl4")
-        private String ISO_format_lvl4;
-        private String region;
-        private String country;
-        private String country_code;
-
-        public String getMunicipality() {
-            return municipality;
+    private String id;
+    private String formattedAddress;
+    private String shortFormattedAddress;
+    private String[] types;
+    private Coords location;
+    private Viewport viewport;
+    private Integer utcOffsetMinutes;
+    private DisplayName displayName;
+    private Photo[] photos;
+    public class Coords {
+        private Double longitude;
+        private Double latitude;
+        public Double getLongitude() {
+            return longitude;
         }
-        public String getCounty() {
-            return county;
+        public Double getLatitude() {
+            return latitude;
         }
-        public String getState_district() {
-            return state_district;
+        public void setLongitude(Double longitude) {
+            this.longitude = longitude;
         }
-        public String getISO_format_lvl5() {
-            return ISO_format_lvl5;
-        }
-        public String getISO_format_lvl4() {
-            return ISO_format_lvl4;
-        }
-        public String getRegion() {
-            return region;
-        }
-        public String getCountry() {
-            return country;
-        }
-        public String getCountry_code() {
-            return country_code;
+        public void setLatitude(Double latitude) {
+            this.latitude = latitude;
         }
     }
-
-    public long getPlace_id() {
-        return place_id;
+    public class Viewport {
+        private Coords high;
+        private Coords low;
+        public Coords getHigh() {
+            return high;
+        }
+        public Coords getLow() {
+            return low;
+        }
     }
-    public double getLon() {
-        return lon;
+    public class DisplayName {
+        private String text;
+        private String languageCode;
+        public String getText() {
+            return text;
+        }
+        public String getLanguageCode() {
+            return languageCode;
+        }
     }
-    public double getLat() {
-        return lat;
+    public class Photo {
+        private String name;
+        private Integer widthPx;
+        private Integer heightPx;
+        private Author[] authorAttributions;
+        public String getName() {
+            return name;
+        }
+        public Integer getWidthPx() {
+            return widthPx;
+        }
+        public Integer getHeightPx() {
+            return heightPx;
+        }
+        public Author[] getAuthorAttributions() {
+            return authorAttributions;
+        }
+        public class Author {
+            private String displayName;
+            private String uri;
+            private String photoUri;
+            public String getDisplayName() {
+                return displayName;
+            }
+            public String getUri() {
+                return uri;
+            }
+            public String getPhotoUri() {
+                return photoUri;
+            }
+        }
     }
-    public String getName() {
-        return name;
+    public String getId() {
+        return id;
     }
-    public String getDisplay_name() {
-        return display_name;
+    public String getFormattedAddress() {
+        return formattedAddress;
     }
-    public String get_class() {
-        return _class;
+    public String getShortFormattedAddress() {
+        return shortFormattedAddress;
     }
-    public String getAddresstype() {
-        return addresstype;
+    public String[] getTypes() {
+        return types;
     }
-    public String getType() {
-        return type;
+    public Coords getLocation() {
+        return location;
     }
-    public String[] getBoundingbox() {
-        return boundingbox;
+    public Viewport getViewport() {
+        return viewport;
     }
-    public Address getAddress() {
-        return address;
+    public Integer getUtcOffsetMinutes() {
+        return utcOffsetMinutes;
     }
-    public void setLon(Double lon) {
-        this.lon = lon;
+    public DisplayName getDisplayName() {
+        return displayName;
     }
-    public void setLat(Double lat) {
-        this.lat = lat;
+    public Photo[] getPhotos() {
+        return photos;
+    }
+    public void setLocation(Coords location) {
+        this.location = location;
     }
 
     @Override
     public String toString() {
-        return getName();
+        return formattedAddress;
     }
 }
