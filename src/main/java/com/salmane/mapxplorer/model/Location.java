@@ -10,6 +10,14 @@ public class Location {
     private Integer utcOffsetMinutes;
     private DisplayName displayName;
     private Photo[] photos;
+    private Double rating;
+    private Integer userRatingCount;
+    private String websiteUri;
+    private Boolean goodForChildren;
+    private String nationalPhoneNumber;
+    private String internationalPhoneNumber;
+
+
     public class Coords {
         private Double longitude;
         private Double latitude;

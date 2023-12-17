@@ -53,7 +53,6 @@ public class LeafletMapController {
     private final Gson gson = new Gson();
     private Timer timer = new Timer();
     private final HttpClient httpClient = HttpClient.newHttpClient();
-    private HttpRequest getRequest = null;
     private final Dotenv dotenv = Dotenv.load();
     String googleApiKey = dotenv.get("GOOGLE_API_KEY");
     private ArrayList<PlacePredictions> possibleSuggestions;
@@ -103,7 +102,7 @@ public class LeafletMapController {
                 HttpResponse<String> response = null;
 
                 try {
-                    getRequest = HttpRequest.newBuilder()
+                    HttpRequest getRequest = HttpRequest.newBuilder()
                             .uri(new URI(
                                     "https://maps.googleapis.com/maps/api/place/autocomplete/json?"
                                             + "key=" + googleApiKey
@@ -111,7 +110,7 @@ public class LeafletMapController {
                             )).GET()
                             .build();
 
-                    response = httpClient.send(getRequest, HttpResponse.BodyHandlers.ofString());
+                     response = httpClient.send(getRequest, HttpResponse.BodyHandlers.ofString());
                 } catch (IOException | InterruptedException | URISyntaxException e) {
                     throw new RuntimeException(e);
                 }
@@ -192,5 +191,48 @@ public class LeafletMapController {
         coords.setLongitude(-7.603869);
         myLocation.setLocation(coords);
         engine.executeScript("goToDeviceLocation("+ gson.toJson(myLocation, Location.class) +")");
+    }
+
+    private Location[] getNearbyPlaces(
+            String googleApiKey,
+            String fields,
+            String[] includedTypes,
+            int maxResultCount,
+            Double lat,
+            Double lon,
+            Double radius
+    ) {
+        String jsonBody = "{\n" +
+                "  \"includedTypes\": [\"" + String.join( "\", \"", includedTypes) + "\"],\n" +
+                "  \"maxResultCount\": " + maxResultCount +  ",\n" +
+                "  \"locationRestriction\": {\n" +
+                "    \"circle\": {\n" +
+                "      \"center\": {\n" +
+                "        \"latitude\": " + lat + ",\n" +
+                "        \"longitude\": " + lon + " },\n" +
+                "      \"radius\": " + radius + "\n" +
+                "    }\n" +
+                "  }\n" +
+                "}";
+
+        try {
+            HttpRequest postRequest = null;
+            postRequest = HttpRequest.newBuilder()
+                    .uri(new URI("https://places.googleapis.com/v1/places:searchNearby"))
+                    .header("Content-Type", "application/json")
+                    .header("X-Goog-Api-Key", googleApiKey)
+                    .header("X-Goog-FieldMask", fields)
+                    .POST(HttpRequest.BodyPublishers.ofString(jsonBody))
+                    .build();
+
+            HttpResponse<String> response = httpClient.send(postRequest, HttpResponse.BodyHandlers.ofString());
+
+            JsonObject jsonObject = JsonParser.parseString(response.body()).getAsJsonObject();
+            JsonArray results = jsonObject.get("places").getAsJsonArray();
+
+            return gson.fromJson(results, Location[].class);
+        } catch (URISyntaxException | IOException | InterruptedException e) {
+            throw new RuntimeException(e);
+        }
     }
 }
