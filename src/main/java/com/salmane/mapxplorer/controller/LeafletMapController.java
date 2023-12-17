@@ -50,40 +50,53 @@ public class LeafletMapController {
     public Tooltip myLocationTooltip;
     @FXML
     public FontAwesomeIconView returnToLocationIcon;
+    private Location activeLocation = null;
+    private Location myLocation = null;
+    private LocationController locationController;
     private final Gson gson = new Gson();
     private Timer timer = new Timer();
     private final HttpClient httpClient = HttpClient.newHttpClient();
-    private final Dotenv dotenv = Dotenv.load();
-    String googleApiKey = dotenv.get("GOOGLE_API_KEY");
+    String googleApiKey = Dotenv.load().get("GOOGLE_API_KEY");
     private ArrayList<PlacePredictions> possibleSuggestions;
-    private Location activeLocation = null;
-    private Location myLocation = null;
 
     public void initialize() {
+        engine = webview.getEngine();
+        webview.setCache(true);
+        engine.load(String.valueOf(getClass().getResource("/com/salmane/mapxplorer/javascript/index.html")));
+
+        locationController = new LocationController(engine, activeLocation, myLocation);
+        initSearchbar();
+    }
+
+    private void initSearchbar() {
         searchbar.setOnKeyReleased(this::handleSearchEvent);
-        autocompleteList.setOnMouseClicked(this::handleAutocompleteSelection);
 
         PauseTransition delay = new PauseTransition(Duration.seconds(0.2));
         delay.setOnFinished(e -> autocompleteList.setVisible(false));
         searchbar.focusedProperty().addListener((observable, oldValue, newValue) -> {
             if (!newValue) {
-                if(activeLocation != null) searchbar.setText(activeLocation.getFormattedAddress());
+                if (activeLocation != null) searchbar.setText(activeLocation.getFormattedAddress());
                 delay.playFromStart();
             } else {
                 handleSearchEvent(new KeyEvent(KeyEvent.KEY_PRESSED, "", "", KeyCode.UNDEFINED, false, false, false, false));
             }
         });
 
-        closeIcon.setOnMouseClicked(this::removeLocationMarker);
-        returnToLocationIcon.setOnMouseClicked(event -> GoToLocation(activeLocation));
+        autocompleteList.setOnMouseClicked(this::handleAutocompleteSelection);
+
+        closeIcon.setOnMouseClicked(event -> {
+            locationController.removeLocationMarker(
+                    event, searchbar,
+                    closeIcon,
+                    returnToLocationIcon,
+                    autocompleteList
+            );
+        });
+        returnToLocationIcon.setOnMouseClicked(event -> locationController.GoToLocation(activeLocation));
 
         myLocationTooltip.setShowDelay(new Duration(100));
         myLocationTooltip.setShowDuration(new Duration(900));
-        myLocationIcon.setOnMouseClicked(this::goToDeviceLocation);
-
-        engine = webview.getEngine();
-        webview.setCache(true);
-        engine.load(String.valueOf(getClass().getResource("/com/salmane/mapxplorer/javascript/index.html")));
+        myLocationIcon.setOnMouseClicked(event -> locationController.goToDeviceLocation(event));
     }
 
     private void handleSearchEvent(KeyEvent event) {
@@ -106,11 +119,11 @@ public class LeafletMapController {
                             .uri(new URI(
                                     "https://maps.googleapis.com/maps/api/place/autocomplete/json?"
                                             + "key=" + googleApiKey
-                                            + "&input=" + searchbar.getText().replaceAll("\\s","+")
+                                            + "&input=" + searchbar.getText().replaceAll("\\s", "+")
                             )).GET()
                             .build();
 
-                     response = httpClient.send(getRequest, HttpResponse.BodyHandlers.ofString());
+                    response = httpClient.send(getRequest, HttpResponse.BodyHandlers.ofString());
                 } catch (IOException | InterruptedException | URISyntaxException e) {
                     throw new RuntimeException(e);
                 }
@@ -118,7 +131,8 @@ public class LeafletMapController {
                 try {
                     JsonObject jsonObject = JsonParser.parseString(response.body()).getAsJsonObject();
                     JsonArray results = jsonObject.get("predictions").getAsJsonArray();
-                    Type placePredictionType = new TypeToken<ArrayList<PlacePredictions>>(){}.getType();
+                    Type placePredictionType = new TypeToken<ArrayList<PlacePredictions>>() {
+                    }.getType();
                     possibleSuggestions = gson.fromJson(results, placePredictionType);
                 } catch (Exception e) {
                     possibleSuggestions = new ArrayList<>();
@@ -135,10 +149,6 @@ public class LeafletMapController {
                 });
             }
         }, 500);
-    }
-
-    private void GoToLocation(Location location) {
-        engine.executeScript("goToLocation(" + gson.toJson(location, Location.class) + ")");
     }
 
     private void handleAutocompleteSelection(MouseEvent event) {
@@ -168,71 +178,9 @@ public class LeafletMapController {
                 activeLocation = gson.fromJson(body, Location.class);
                 closeIcon.setVisible(true);
                 returnToLocationIcon.setVisible(true);
-                GoToLocation(activeLocation);
+                locationController.GoToLocation(activeLocation);
             }, Platform::runLater);
         }
     }
 
-    private void removeLocationMarker(MouseEvent event) {
-        if(activeLocation != null) {
-            engine.executeScript("removeLocationMarker()");
-            activeLocation = null;
-        }
-        searchbar.setText("");
-        closeIcon.setVisible(false);
-        returnToLocationIcon.setVisible(false);
-        autocompleteList.setVisible(false);
-    }
-
-    private void goToDeviceLocation(MouseEvent event) {
-        myLocation = new Location();
-        Location.Coords coords = myLocation.new Coords();
-        coords.setLatitude(33.589886);
-        coords.setLongitude(-7.603869);
-        myLocation.setLocation(coords);
-        engine.executeScript("goToDeviceLocation("+ gson.toJson(myLocation, Location.class) +")");
-    }
-
-    private Location[] getNearbyPlaces(
-            String googleApiKey,
-            String fields,
-            String[] includedTypes,
-            int maxResultCount,
-            Double lat,
-            Double lon,
-            Double radius
-    ) {
-        String jsonBody = "{\n" +
-                "  \"includedTypes\": [\"" + String.join( "\", \"", includedTypes) + "\"],\n" +
-                "  \"maxResultCount\": " + maxResultCount +  ",\n" +
-                "  \"locationRestriction\": {\n" +
-                "    \"circle\": {\n" +
-                "      \"center\": {\n" +
-                "        \"latitude\": " + lat + ",\n" +
-                "        \"longitude\": " + lon + " },\n" +
-                "      \"radius\": " + radius + "\n" +
-                "    }\n" +
-                "  }\n" +
-                "}";
-
-        try {
-            HttpRequest postRequest = null;
-            postRequest = HttpRequest.newBuilder()
-                    .uri(new URI("https://places.googleapis.com/v1/places:searchNearby"))
-                    .header("Content-Type", "application/json")
-                    .header("X-Goog-Api-Key", googleApiKey)
-                    .header("X-Goog-FieldMask", fields)
-                    .POST(HttpRequest.BodyPublishers.ofString(jsonBody))
-                    .build();
-
-            HttpResponse<String> response = httpClient.send(postRequest, HttpResponse.BodyHandlers.ofString());
-
-            JsonObject jsonObject = JsonParser.parseString(response.body()).getAsJsonObject();
-            JsonArray results = jsonObject.get("places").getAsJsonArray();
-
-            return gson.fromJson(results, Location[].class);
-        } catch (URISyntaxException | IOException | InterruptedException e) {
-            throw new RuntimeException(e);
-        }
-    }
 }
