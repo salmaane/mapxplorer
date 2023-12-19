@@ -1,13 +1,13 @@
 package com.salmane.mapxplorer.controller;
 
+import com.salmane.mapxplorer.model.DataManager;
 import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView;
 import javafx.fxml.FXML;
-import javafx.scene.control.ComboBox;
-import javafx.scene.control.Label;
-import javafx.scene.control.Slider;
-import javafx.scene.control.Tooltip;
+import javafx.scene.control.*;
 import javafx.scene.layout.AnchorPane;
 import javafx.util.Duration;
+import org.controlsfx.validation.ValidationSupport;
+import org.controlsfx.validation.Validator;
 
 public class SidebarController {
     public AnchorPane sidebar;
@@ -21,9 +21,17 @@ public class SidebarController {
     public Slider radiusSlider;
     @FXML
     public Label radiusLabel;
+    @FXML
+    public TextField latTextField;
+    @FXML
+    public TextField lonTextField;
+    @FXML
+    public Button searchButton;
+    ValidationSupport validationSupport = new ValidationSupport();
 
 
     public void initialize() {
+        DataManager.getInstance().setSidebarController(this);
         initTooltips();
         initTypesCombobox();
         initRadiusSlider();
@@ -58,11 +66,17 @@ public class SidebarController {
                 "Train station"
         };
         typesComboBox.getItems().addAll(placeTypes);
+        validationSupport.registerValidator(typesComboBox, Validator.createEmptyValidator("A type place is required"));
     }
     private void initRadiusSlider() {
         radiusSlider.valueProperty().addListener((observable, oldValue, newValue) -> {
             radiusLabel.setText(String.format("Choose circle radius - %.0f km", newValue));
         });
+    }
+    public void enableControls() {
+        typesComboBox.setDisable(false);
+        radiusSlider.setDisable(false);
+        searchButton.setDisable(false);
     }
 
 }

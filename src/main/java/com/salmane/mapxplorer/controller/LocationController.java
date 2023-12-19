@@ -4,6 +4,7 @@ import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
+import com.salmane.mapxplorer.model.DataManager;
 import com.salmane.mapxplorer.model.Location;
 import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView;
 import javafx.scene.control.ListView;
@@ -38,6 +39,7 @@ public class LocationController {
         coords.setLongitude(-7.603869);
         myLocation.setLocation(coords);
         engine.executeScript("goToDeviceLocation("+ gson.toJson(myLocation, Location.class) +")");
+        DataManager.getInstance().getSidebarController().enableControls();
     }
 
     public Location removeLocationMarker(
