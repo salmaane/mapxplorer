@@ -4,14 +4,21 @@
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.Cursor?>
 <?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ListView?>
 <?import javafx.scene.control.Separator?>
+<?import javafx.scene.control.Slider?>
+<?import javafx.scene.control.TextField?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
 
-<AnchorPane fx:id="sidebar" minHeight="500.0" minWidth="-Infinity" prefWidth="300.0" styleClass="sidebar" stylesheets="@../styles/sidebar.css" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.salmane.mapxplorer.controller.SidebarController">
+<AnchorPane fx:id="sidebar" minHeight="500.0" minWidth="-Infinity" prefHeight="746.0" prefWidth="300.0" styleClass="sidebar" stylesheets="@../styles/sidebar.css" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.salmane.mapxplorer.controller.SidebarController">
     <children>
       <ImageView fitHeight="140.0" fitWidth="147.0" layoutX="76.0" layoutY="23.0" pickOnBounds="true" preserveRatio="true" AnchorPane.leftAnchor="76.0" AnchorPane.rightAnchor="77.0" AnchorPane.topAnchor="23.0">
          <image>
@@ -35,7 +42,65 @@
             <Label text="About" />
          </children>
       </HBox>
-      <Button layoutX="185.0" layoutY="14.0" mnemonicParsing="false" style="-fx-background-color: transparent;" AnchorPane.rightAnchor="15.0" AnchorPane.topAnchor="10.0" />
       <Label layoutX="9.0" layoutY="131.0" text="Map settings" textFill="#999999" />
+      <VBox layoutX="89.0" layoutY="155.0" prefHeight="541.0" prefWidth="298.0" spacing="12.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="2.0">
+         <children>
+            <Text fill="#333333" strokeType="OUTSIDE" strokeWidth="0.0" text="Nearby places">
+               <font>
+                  <Font name="System Bold" size="14.0" />
+               </font>
+            </Text>
+            <VBox spacing="2.0">
+               <children>
+                  <Label text="Select place type">
+                     <font>
+                        <Font size="13.0" />
+                     </font>
+                  </Label>
+                  <ComboBox fx:id="typesComboBox" disable="true" prefHeight="26.0" prefWidth="311.0" />
+               </children>
+            </VBox>
+            <VBox spacing="2.0">
+               <children>
+                  <Label fx:id="radiusLabel" prefHeight="19.0" prefWidth="270.0" text="Choose circle radius - 1 Km">
+                     <font>
+                        <Font size="13.0" />
+                     </font>
+                  </Label>
+                  <Slider fx:id="radiusSlider" blockIncrement="6.0" disable="true" majorTickUnit="10.0" max="50.0" min="1.0" minorTickCount="5" showTickMarks="true" snapToTicks="true" value="1.0" />
+               </children>
+            </VBox>
+            <HBox prefHeight="47.0" prefWidth="273.0" spacing="10.0">
+               <children>
+                  <VBox prefHeight="47.0" prefWidth="136.0" spacing="2.0">
+                     <children>
+                        <Label text="Latitude" />
+                        <TextField editable="false" />
+                     </children>
+                  </VBox>
+                  <VBox prefHeight="58.0" prefWidth="144.0" spacing="2.0">
+                     <children>
+                        <Label text="Longiude" />
+                        <TextField editable="false" />
+                     </children>
+                  </VBox>
+               </children>
+            </HBox>
+            <Button disable="true" mnemonicParsing="false" prefHeight="26.0" prefWidth="291.0" text="Search" />
+            <VBox spacing="2.0">
+               <children>
+                  <Label text="Available places">
+                     <font>
+                        <Font name="System Bold Italic" size="12.0" />
+                     </font>
+                  </Label>
+                  <ListView prefHeight="305.0" prefWidth="273.0" />
+               </children>
+            </VBox>
+         </children>
+         <padding>
+            <Insets bottom="10.0" left="13.0" right="13.0" top="10.0" />
+         </padding>
+      </VBox>
     </children>
 </AnchorPane>

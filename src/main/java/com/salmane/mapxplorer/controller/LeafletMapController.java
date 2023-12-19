@@ -64,7 +64,7 @@ public class LeafletMapController {
         webview.setCache(true);
         engine.load(String.valueOf(getClass().getResource("/com/salmane/mapxplorer/javascript/index.html")));
 
-        locationController = new LocationController(engine, activeLocation, myLocation);
+        locationController = new LocationController(engine);
         initSearchbar();
     }
 
@@ -85,18 +85,19 @@ public class LeafletMapController {
         autocompleteList.setOnMouseClicked(this::handleAutocompleteSelection);
 
         closeIcon.setOnMouseClicked(event -> {
-            locationController.removeLocationMarker(
+            activeLocation = locationController.removeLocationMarker(
                     event, searchbar,
                     closeIcon,
                     returnToLocationIcon,
-                    autocompleteList
+                    autocompleteList,
+                    activeLocation
             );
         });
         returnToLocationIcon.setOnMouseClicked(event -> locationController.GoToLocation(activeLocation));
 
         myLocationTooltip.setShowDelay(new Duration(100));
         myLocationTooltip.setShowDuration(new Duration(900));
-        myLocationIcon.setOnMouseClicked(event -> locationController.goToDeviceLocation(event));
+        myLocationIcon.setOnMouseClicked(event -> locationController.goToDeviceLocation(event, myLocation));
     }
 
     private void handleSearchEvent(KeyEvent event) {

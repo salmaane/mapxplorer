@@ -21,21 +21,17 @@ import java.net.http.HttpResponse;
 public class LocationController {
     private final Gson gson = new Gson();
     private WebEngine engine = null;
-    private Location activeLocation = null;
-    private Location myLocation = null;
     private final HttpClient httpClient = HttpClient.newHttpClient();
 
-    public LocationController(WebEngine engine, Location activeLocation, Location myLocation) {
+    public LocationController(WebEngine engine) {
         this.engine = engine;
-        this.activeLocation = activeLocation;
-        this.myLocation = myLocation;
     }
 
     public void GoToLocation(Location location) {
         engine.executeScript("goToLocation(" + gson.toJson(location, Location.class) + ")");
     }
 
-    public void goToDeviceLocation(MouseEvent event) {
+    public void goToDeviceLocation(MouseEvent event, Location myLocation) {
         myLocation = new Location();
         Location.Coords coords = myLocation.new Coords();
         coords.setLatitude(33.589886);
@@ -44,21 +40,22 @@ public class LocationController {
         engine.executeScript("goToDeviceLocation("+ gson.toJson(myLocation, Location.class) +")");
     }
 
-    public void removeLocationMarker(
+    public Location removeLocationMarker(
             MouseEvent event,
             TextField searchbar,
             FontAwesomeIconView closeIcon,
             FontAwesomeIconView returnToLocationIcon,
-            ListView<?> autocompleteList
+            ListView<?> autocompleteList,
+            Location activeLocation
     ) {
         if(activeLocation != null) {
             engine.executeScript("removeLocationMarker()");
-            activeLocation = null;
         }
         searchbar.setText("");
         closeIcon.setVisible(false);
         returnToLocationIcon.setVisible(false);
         autocompleteList.setVisible(false);
+        return null;
     }
 
     private Location[] getNearbyPlaces(

@@ -1,6 +1,10 @@
 package com.salmane.mapxplorer.controller;
 
 import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView;
+import javafx.fxml.FXML;
+import javafx.scene.control.ComboBox;
+import javafx.scene.control.Label;
+import javafx.scene.control.Slider;
 import javafx.scene.control.Tooltip;
 import javafx.scene.layout.AnchorPane;
 import javafx.util.Duration;
@@ -11,8 +15,21 @@ public class SidebarController {
     public FontAwesomeIconView savedIcon;
     public FontAwesomeIconView offlineIcon;
     public FontAwesomeIconView aboutIcon;
+    @FXML
+    public ComboBox<String> typesComboBox;
+    @FXML
+    public Slider radiusSlider;
+    @FXML
+    public Label radiusLabel;
+
 
     public void initialize() {
+        initTooltips();
+        initTypesCombobox();
+        initRadiusSlider();
+    }
+    
+    private void initTooltips() {
         Tooltip homeTooltip = new Tooltip("Home");
         homeTooltip.setStyle("-fx-font-size: 10px;");
         homeTooltip.setShowDelay(Duration.millis(100));
@@ -34,4 +51,18 @@ public class SidebarController {
         Tooltip.install(offlineIcon, offlineTooltip);
         Tooltip.install(aboutIcon, aboutTooltip);
     }
+    private void initTypesCombobox() {
+        String[] placeTypes = new String[]{
+                "Restaurant","Police", "Hospital", "Pharmacy", "Doctor", "Hotel", "Mosque", "Market",
+                "Store", "Supermarket", "Shopping mall", "Gym", "Stadium", "Sports club", "Airport",
+                "Train station"
+        };
+        typesComboBox.getItems().addAll(placeTypes);
+    }
+    private void initRadiusSlider() {
+        radiusSlider.valueProperty().addListener((observable, oldValue, newValue) -> {
+            radiusLabel.setText(String.format("Choose circle radius - %.0f km", newValue));
+        });
+    }
+
 }
