@@ -43,7 +43,7 @@
          </children>
       </HBox>
       <Label layoutX="9.0" layoutY="131.0" text="Map settings" textFill="#999999" />
-      <VBox fx:id="nearbyPlacesContainer" layoutX="89.0" layoutY="155.0" prefHeight="541.0" prefWidth="298.0" spacing="12.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="2.0">
+      <VBox fx:id="nearbyPlacesContainer" layoutX="89.0" layoutY="155.0" prefHeight="550.0" prefWidth="296.0" spacing="12.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="4.0">
          <children>
             <Text fill="#333333" strokeType="OUTSIDE" strokeWidth="0.0" text="Nearby places">
                <font>
@@ -74,7 +74,10 @@
                         <Font size="13.0" />
                      </font>
                   </Label>
-                  <SearchableComboBox fx:id="typesComboBox" disable="true" />
+                  <SearchableComboBox fx:id="typesComboBox" disable="true" styleClass="combobox">
+                     <cursor>
+                        <Cursor fx:constant="HAND" />
+                     </cursor></SearchableComboBox>
                </children>
             </VBox>
             <VBox spacing="2.0">
@@ -84,7 +87,10 @@
                         <Font size="13.0" />
                      </font>
                   </Label>
-                  <Slider fx:id="radiusSlider" blockIncrement="6.0" disable="true" majorTickUnit="10.0" max="50.0" min="1.0" minorTickCount="5" showTickMarks="true" snapToTicks="true" value="1.0" />
+                  <Slider fx:id="radiusSlider" blockIncrement="6.0" disable="true" majorTickUnit="10.0" max="50.0" min="1.0" minorTickCount="6" showTickMarks="true" snapToTicks="true" value="1.0">
+                     <cursor>
+                        <Cursor fx:constant="HAND" />
+                     </cursor></Slider>
                </children>
             </VBox>
             <HBox prefHeight="47.0" prefWidth="273.0" spacing="10.0">
@@ -92,26 +98,29 @@
                   <VBox prefHeight="47.0" prefWidth="136.0" spacing="2.0">
                      <children>
                         <Label text="Latitude" />
-                        <TextField fx:id="latTextField" editable="false" focusTraversable="false" />
+                        <TextField fx:id="latTextField" disable="true" editable="false" focusTraversable="false" />
                      </children>
                   </VBox>
                   <VBox prefHeight="58.0" prefWidth="144.0" spacing="2.0">
                      <children>
                         <Label text="Longiude" />
-                        <TextField fx:id="lonTextField" editable="false" focusTraversable="false" />
+                        <TextField fx:id="lonTextField" disable="true" editable="false" focusTraversable="false" />
                      </children>
                   </VBox>
                </children>
             </HBox>
-            <Button fx:id="searchButton" disable="true" mnemonicParsing="false" onAction="#handleSearchButtonClick" prefHeight="26.0" prefWidth="291.0" text="Search" />
+            <Button fx:id="searchButton" disable="true" mnemonicParsing="false" onAction="#handleSearchButtonClick" prefHeight="26.0" prefWidth="291.0" styleClass="search-button" text="Search">
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor></Button>
             <VBox spacing="2.0">
                <children>
-                  <Label text="Available places">
+                  <Text fill="#333333" strokeType="OUTSIDE" strokeWidth="0.0" text="Available places">
                      <font>
                         <Font name="System Bold Italic" size="12.0" />
                      </font>
-                  </Label>
-                  <ListView prefHeight="305.0" prefWidth="273.0" />
+                  </Text>
+                  <ListView fx:id="placesListView" disable="true" prefHeight="523.0" prefWidth="270.0" styleClass="listview" />
                </children>
             </VBox>
          </children>

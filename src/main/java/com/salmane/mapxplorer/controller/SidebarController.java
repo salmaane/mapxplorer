@@ -11,10 +11,6 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.util.Duration;
-import org.controlsfx.validation.ValidationSupport;
-import org.controlsfx.validation.Validator;
-
-import java.util.Arrays;
 
 public class SidebarController {
     public AnchorPane sidebar;
@@ -38,7 +34,8 @@ public class SidebarController {
     public HBox activateLocationMessage;
     @FXML
     public VBox nearbyPlacesContainer;
-    ValidationSupport validationSupport = new ValidationSupport();
+    @FXML
+    public ListView<Location> placesListView;
     Dotenv dotenv = Dotenv.load();
 
 
@@ -79,7 +76,6 @@ public class SidebarController {
                 "Train station"
         };
         typesComboBox.getItems().addAll(placeTypes);
-        validationSupport.registerValidator(typesComboBox, Validator.createEmptyValidator("A type place is required"));
     }
     private void initRadiusSlider() {
         radiusSlider.valueProperty().addListener((observable, oldValue, newValue) -> {
@@ -90,6 +86,7 @@ public class SidebarController {
         typesComboBox.setDisable(false);
         radiusSlider.setDisable(false);
         searchButton.setDisable(false);
+        placesListView.setDisable(false);
         nearbyPlacesContainer.getChildren().remove(activateLocationMessage);
     }
     @FXML
@@ -109,8 +106,8 @@ public class SidebarController {
                     Double.valueOf(lonTextField.getText()),
                     radiusSlider.getValue()
         );
-
-        System.out.println(Arrays.toString(places));
+        if(!placesListView.getItems().isEmpty()) placesListView.getItems().clear();
+        placesListView.getItems().addAll(places);
     }
 
     private void showAlert(String title, String content) {

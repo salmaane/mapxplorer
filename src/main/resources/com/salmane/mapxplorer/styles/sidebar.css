@@ -31,3 +31,60 @@
     -fx-text-fill: #fff;
     -fx-fill: #fff;
 }
+
+.listview {
+    -fx-background-color: #fff;
+    -fx-border-color: #225be5;
+    -fx-font-size: 12;
+    -fx-background-radius: 4px;
+    -fx-border-radius: 4px;
+}
+
+.combobox .list-cell:filled:focused {
+    -fx-background-color: #fff;
+    -fx-text-fill: #000;
+    -fx-font-weight: bold;
+}
+
+.combobox {
+    -fx-border-color: #aaa;
+    -fx-background-color: #fff;
+    -fx-border-radius: 3px;
+    -fx-border-width: 0.5 0.5 0.5 0.5;
+    -fx-effect: none;
+}
+
+.list-cell:filled:hover {
+    -fx-background-color: #ffe89b;
+    -fx-text-fill: #000;
+    -fx-cursor: hand;
+}
+
+.listview .list-cell:focused:filled:selected {
+    -fx-background-color: #225be5;
+    -fx-font-weight: bold;
+    -fx-text-fill: #fff;
+}
+
+.listview .list-cell:odd {
+    -fx-background-color: #fff;
+}
+
+.search-button {
+    -fx-background-color: #fff;
+    -fx-border-color: #225be5;
+    -fx-font-weight: bold;
+    -fx-text-fill: #225be5;
+}
+
+.search-button:hover {
+    -fx-background-color: #225be5;
+    -fx-text-fill: #fff;
+}
+
+.text-field:disabled {
+    -fx-text-fill: #333;
+    -fx-border-color: #ddd;
+    -fx-opacity: 1;
+    -fx-effect: none;
+}

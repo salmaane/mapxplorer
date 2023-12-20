@@ -79,7 +79,7 @@ public class LocationController {
                 "      \"center\": {\n" +
                 "        \"latitude\": " + lat + ",\n" +
                 "        \"longitude\": " + lon + " },\n" +
-                "      \"radius\": " + radius + "\n" +
+                "      \"radius\": " + radius * 1_000 + "\n" +
                 "    }\n" +
                 "  }\n" +
                 "}";
