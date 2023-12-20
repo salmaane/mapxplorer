@@ -5,6 +5,7 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import com.google.gson.reflect.TypeToken;
+import com.salmane.mapxplorer.model.DataManager;
 import com.salmane.mapxplorer.model.Location;
 import com.salmane.mapxplorer.model.PlacePredictions;
 import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView;
@@ -65,6 +66,7 @@ public class LeafletMapController {
         engine.load(String.valueOf(getClass().getResource("/com/salmane/mapxplorer/javascript/index.html")));
 
         locationController = new LocationController(engine);
+        DataManager.getInstance().setLocationController(locationController);
         initSearchbar();
     }
 

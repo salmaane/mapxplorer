@@ -43,13 +43,30 @@
          </children>
       </HBox>
       <Label layoutX="9.0" layoutY="131.0" text="Map settings" textFill="#999999" />
-      <VBox layoutX="89.0" layoutY="155.0" prefHeight="541.0" prefWidth="298.0" spacing="12.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="2.0">
+      <VBox fx:id="nearbyPlacesContainer" layoutX="89.0" layoutY="155.0" prefHeight="541.0" prefWidth="298.0" spacing="12.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="2.0">
          <children>
             <Text fill="#333333" strokeType="OUTSIDE" strokeWidth="0.0" text="Nearby places">
                <font>
                   <Font name="System Bold" size="14.0" />
                </font>
             </Text>
+            <HBox fx:id="activateLocationMessage" prefHeight="100.0" prefWidth="200.0">
+               <children>
+                  <Label prefHeight="18.0" prefWidth="234.0" text="please activate your location by clicking :" textFill="RED">
+                     <font>
+                        <Font size="11.0" />
+                     </font>
+                  </Label>
+                  <FontAwesomeIconView fill="#073bb0" glyphName="MAP_PIN" size="14">
+                     <font>
+                        <Font size="14.0" />
+                     </font>
+                     <HBox.margin>
+                        <Insets top="2.0" />
+                     </HBox.margin>
+                  </FontAwesomeIconView>
+               </children>
+            </HBox>
             <VBox spacing="2.0">
                <children>
                   <Label text="Select place type">
@@ -75,18 +92,18 @@
                   <VBox prefHeight="47.0" prefWidth="136.0" spacing="2.0">
                      <children>
                         <Label text="Latitude" />
-                        <TextField fx:id="latTextField" editable="false" />
+                        <TextField fx:id="latTextField" editable="false" focusTraversable="false" />
                      </children>
                   </VBox>
                   <VBox prefHeight="58.0" prefWidth="144.0" spacing="2.0">
                      <children>
                         <Label text="Longiude" />
-                        <TextField fx:id="lonTextField" editable="false" />
+                        <TextField fx:id="lonTextField" editable="false" focusTraversable="false" />
                      </children>
                   </VBox>
                </children>
             </HBox>
-            <Button fx:id="searchButton" disable="true" mnemonicParsing="false" prefHeight="26.0" prefWidth="291.0" text="Search" />
+            <Button fx:id="searchButton" disable="true" mnemonicParsing="false" onAction="#handleSearchButtonClick" prefHeight="26.0" prefWidth="291.0" text="Search" />
             <VBox spacing="2.0">
                <children>
                   <Label text="Available places">

@@ -40,6 +40,8 @@ public class LocationController {
         myLocation.setLocation(coords);
         engine.executeScript("goToDeviceLocation("+ gson.toJson(myLocation, Location.class) +")");
         DataManager.getInstance().getSidebarController().enableControls();
+        DataManager.getInstance().getLatLonFields()[0].setText(myLocation.getLocation().getLatitude().toString());
+        DataManager.getInstance().getLatLonFields()[1].setText(myLocation.getLocation().getLongitude().toString());
     }
 
     public Location removeLocationMarker(
@@ -60,7 +62,7 @@ public class LocationController {
         return null;
     }
 
-    private Location[] getNearbyPlaces(
+    public Location[] getNearbyPlaces(
             String googleApiKey,
             String fields,
             String[] includedTypes,
