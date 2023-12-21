@@ -82,6 +82,10 @@
     -fx-text-fill: #fff;
 }
 
+.search-button:disabled {
+    -fx-opacity: 1;
+}
+
 .text-field:disabled {
     -fx-text-fill: #333;
     -fx-border-color: #ddd;

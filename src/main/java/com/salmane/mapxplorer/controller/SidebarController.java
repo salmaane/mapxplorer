@@ -4,6 +4,7 @@ import com.salmane.mapxplorer.model.DataManager;
 import com.salmane.mapxplorer.model.Location;
 import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView;
 import io.github.cdimascio.dotenv.Dotenv;
+import javafx.concurrent.Task;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
@@ -11,6 +12,7 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.util.Duration;
+import org.jetbrains.annotations.NotNull;
 
 public class SidebarController {
     public AnchorPane sidebar;
@@ -36,6 +38,8 @@ public class SidebarController {
     public VBox nearbyPlacesContainer;
     @FXML
     public ListView<Location> placesListView;
+    @FXML
+    public ProgressIndicator spinner;
     Dotenv dotenv = Dotenv.load();
 
 
@@ -46,7 +50,7 @@ public class SidebarController {
         initTypesCombobox();
         initRadiusSlider();
     }
-    
+
     private void initTooltips() {
         Tooltip homeTooltip = new Tooltip("Home");
         homeTooltip.setStyle("-fx-font-size: 10px;");
@@ -89,6 +93,7 @@ public class SidebarController {
         placesListView.setDisable(false);
         nearbyPlacesContainer.getChildren().remove(activateLocationMessage);
     }
+
     @FXML
     private void handleSearchButtonClick(ActionEvent event) {
         if(typesComboBox.getSelectionModel().isEmpty()) {
@@ -96,20 +101,47 @@ public class SidebarController {
             return;
         }
 
+        searchButton.setText("");
+        spinner.setVisible(true);
+        searchButton.setDisable(true);
+
+        Task<Location[]> nearbyPLacesTask = getNearbyPlcaesTask();
+
+        nearbyPLacesTask.setOnSucceeded(workerStateEvent -> {
+            Location[] places = nearbyPLacesTask.getValue();
+            if(!placesListView.getItems().isEmpty()) placesListView.getItems().clear();
+            placesListView.getItems().addAll(places);
+            searchButton.setText("Search");
+            spinner.setVisible(false);
+            searchButton.setDisable(false);
+        });
+
+        nearbyPLacesTask.setOnFailed(workerStateEvent -> {
+            searchButton.setText("Search");
+            spinner.setVisible(true);
+            searchButton.setDisable(false);
+        });
+
+        new Thread(nearbyPLacesTask).start();
+    }
+    @NotNull
+    private Task<Location[]> getNearbyPlcaesTask() {
         String[] selected = typesComboBox.getSelectionModel().getSelectedItem()
                 .toLowerCase().split(" ");
 
-        Location[] places = DataManager.getInstance().getLocationController().getNearbyPlaces(
-                    dotenv.get("GOOGLE_API_KEY"), "*",
-                    new String[]{String.join("_", selected)},
-                    20, Double.valueOf(latTextField.getText()),
-                    Double.valueOf(lonTextField.getText()),
-                    radiusSlider.getValue()
-        );
-        if(!placesListView.getItems().isEmpty()) placesListView.getItems().clear();
-        placesListView.getItems().addAll(places);
+        return new Task<Location[]>() {
+            @Override
+            protected Location[] call() throws Exception {
+                return DataManager.getInstance().getLocationController().getNearbyPlaces(
+                        dotenv.get("GOOGLE_API_KEY"), "*",
+                        new String[]{String.join("_", selected)},
+                        20, Double.valueOf(latTextField.getText()),
+                        Double.valueOf(lonTextField.getText()),
+                        radiusSlider.getValue()
+                );
+            }
+        };
     }
-
     private void showAlert(String title, String content) {
         Alert alert = new Alert(Alert.AlertType.ERROR);
         alert.setTitle(title);

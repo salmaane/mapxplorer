@@ -6,6 +6,7 @@
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ListView?>
+<?import javafx.scene.control.ProgressIndicator?>
 <?import javafx.scene.control.Separator?>
 <?import javafx.scene.control.Slider?>
 <?import javafx.scene.control.TextField?>
@@ -109,10 +110,13 @@
                   </VBox>
                </children>
             </HBox>
-            <Button fx:id="searchButton" disable="true" mnemonicParsing="false" onAction="#handleSearchButtonClick" prefHeight="26.0" prefWidth="291.0" styleClass="search-button" text="Search">
+            <Button fx:id="searchButton" contentDisplay="RIGHT" disable="true" mnemonicParsing="false" onAction="#handleSearchButtonClick" prefHeight="26.0" prefWidth="291.0" styleClass="search-button" text="Search">
                <cursor>
                   <Cursor fx:constant="HAND" />
-               </cursor></Button>
+               </cursor>
+               <graphic>
+                  <ProgressIndicator fx:id="spinner" accessibleRole="SPINNER" prefHeight="20.0" prefWidth="19.0" style="-fx-accent: #225be5; -fx-opacity: 1;" visible="false" />
+               </graphic></Button>
             <VBox spacing="2.0">
                <children>
                   <Text fill="#333333" strokeType="OUTSIDE" strokeWidth="0.0" text="Available places">
