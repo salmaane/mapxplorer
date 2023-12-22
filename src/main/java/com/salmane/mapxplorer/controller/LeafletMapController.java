@@ -67,6 +67,7 @@ public class LeafletMapController {
 
         locationController = new LocationController(engine);
         DataManager.getInstance().setLocationController(locationController);
+        DataManager.getInstance().setEngine(engine);
         initSearchbar();
     }
 

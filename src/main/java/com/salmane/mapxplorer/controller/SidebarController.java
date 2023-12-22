@@ -1,5 +1,6 @@
 package com.salmane.mapxplorer.controller;
 
+import com.google.gson.Gson;
 import com.salmane.mapxplorer.model.DataManager;
 import com.salmane.mapxplorer.model.Location;
 import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView;
@@ -11,6 +12,8 @@ import javafx.scene.control.*;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
+import javafx.scene.text.Text;
+import javafx.scene.web.WebEngine;
 import javafx.util.Duration;
 import org.jetbrains.annotations.NotNull;
 
@@ -33,6 +36,8 @@ public class SidebarController {
     @FXML
     public Button searchButton;
     @FXML
+    public Text placesNumber;
+    @FXML
     public HBox activateLocationMessage;
     @FXML
     public VBox nearbyPlacesContainer;
@@ -40,8 +45,8 @@ public class SidebarController {
     public ListView<Location> placesListView;
     @FXML
     public ProgressIndicator spinner;
-    Dotenv dotenv = Dotenv.load();
-
+    private final Dotenv dotenv = Dotenv.load();
+    private final Gson gson = new Gson();
 
     public void initialize() {
         DataManager.getInstance().setSidebarController(this);
@@ -108,15 +113,26 @@ public class SidebarController {
         Task<Location[]> nearbyPLacesTask = getNearbyPlcaesTask();
 
         nearbyPLacesTask.setOnSucceeded(workerStateEvent -> {
+            WebEngine engine = DataManager.getInstance().getEngine();
             Location[] places = nearbyPLacesTask.getValue();
             if(!placesListView.getItems().isEmpty()) placesListView.getItems().clear();
             placesListView.getItems().addAll(places);
+
+            engine.executeScript("placeMarkers("
+                    + gson.toJson(places)
+                    + "," + gson.toJson(DataManager.getInstance().getMyLocation())
+                    + "," + radiusSlider.getValue() * 1_000
+            +")");
+
+            // UI UPDATES
+            placesNumber.setText("(" +  places.length + ")");
             searchButton.setText("Search");
             spinner.setVisible(false);
             searchButton.setDisable(false);
         });
 
         nearbyPLacesTask.setOnFailed(workerStateEvent -> {
+            // UI UPDATES
             searchButton.setText("Search");
             spinner.setVisible(true);
             searchButton.setDisable(false);

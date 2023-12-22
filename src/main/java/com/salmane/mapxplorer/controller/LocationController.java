@@ -38,6 +38,7 @@ public class LocationController {
         coords.setLatitude(33.589886);
         coords.setLongitude(-7.603869);
         myLocation.setLocation(coords);
+        DataManager.getInstance().setMyLocation(myLocation);
         engine.executeScript("goToDeviceLocation("+ gson.toJson(myLocation, Location.class) +")");
         DataManager.getInstance().getSidebarController().enableControls();
         DataManager.getInstance().getLatLonFields()[0].setText(myLocation.getLocation().getLatitude().toString());

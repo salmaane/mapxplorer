@@ -12,7 +12,7 @@ defaultMode();
 // Pan the map to the given location
 let searchMarker = null;
 function goToLocation(location) {
-    map.setView([location.location.latitude, location.location.longitude], 13);
+    map.flyTo([location.location.latitude, location.location.longitude], 13);
     if(searchMarker) {
         searchMarker.remove();
     }
@@ -55,8 +55,8 @@ getDeviceLocation();
 
 // Pan map to user device location
 let currentLocationMarker = null;
-function goToDeviceLocation(location) {
-    map.setView([location.location.latitude, location.location.longitude], 13);
+function goToDeviceLocation(location, zoom = 13) {
+    map.flyTo([location.location.latitude, location.location.longitude], zoom);
     if(currentLocationMarker) {
         currentLocationMarker.remove();
     }
@@ -71,4 +71,40 @@ function goToDeviceLocation(location) {
         bounceOnAdd: false,
         icon: icon,
     }).addTo(map);
+}
+
+// Place nearby places markers on the map with a circle representing the area of those places
+let circle = null;
+let markers = [];
+function placeMarkers(locations, myLocation, radius) {
+    if(circle) circle.remove();
+    if(markers) markers.map(marker => marker.remove())
+
+    circle = L.circle([myLocation.location.latitude, myLocation.location.longitude], {
+        radius: radius,
+        fillColor: '#65B741',
+        fillOpacity: 0.12,
+        color:'#163020',
+        weight: 1,
+    }).addTo(map);
+
+    var greenIcon = new L.Icon({
+        iconUrl: 'https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-green.png',
+        shadowUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.7/images/marker-shadow.png',
+        iconSize: [25, 41],
+        iconAnchor: [12, 41],
+        popupAnchor: [1, -34],
+        shadowSize: [41, 41]
+    });
+    markers = locations.map(location => {
+        return L.marker([location.location.latitude, location.location.longitude], {
+            riseOnHover: true,
+            bounceOnAdd: true,
+            icon: greenIcon,
+        }).addTo(map);
+    });
+
+    goToDeviceLocation(myLocation, undefined);
+    map.fitBounds(circle.getBounds());
+
 }

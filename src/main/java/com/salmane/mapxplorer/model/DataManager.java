@@ -3,6 +3,7 @@ package com.salmane.mapxplorer.model;
 import com.salmane.mapxplorer.controller.LocationController;
 import com.salmane.mapxplorer.controller.SidebarController;
 import javafx.scene.control.TextField;
+import javafx.scene.web.WebEngine;
 
 public class DataManager {
     private static DataManager instance;
@@ -10,6 +11,9 @@ public class DataManager {
     private LocationController locationController;
     private TextField latitude;
     private TextField longitude;
+    private WebEngine engine = null;
+    private Location myLocation = null;
+
 
     private DataManager() {}
 
@@ -40,5 +44,19 @@ public class DataManager {
     }
     public TextField[] getLatLonFields() {
         return new TextField[]{latitude, longitude};
+    }
+
+    public WebEngine getEngine() {
+        return engine;
+    }
+    public void setEngine(WebEngine engine) {
+        this.engine = engine;
+    }
+
+    public Location getMyLocation() {
+        return myLocation;
+    }
+    public void setMyLocation(Location myLocation) {
+        this.myLocation = myLocation;
     }
 }
