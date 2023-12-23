@@ -92,3 +92,19 @@
     -fx-opacity: 1;
     -fx-effect: none;
 }
+
+.clear-places-button {
+    -fx-font-size: 11.5px;
+    -fx-background-color: transparent;
+    -fx-font-weight: bold;
+    -fx-border-color: #444;
+    -fx-border-style: solid;
+    -fx-border-radius: 10px;
+    -fx-padding: 0.5px 6px 0.5px 6px;
+    -fx-text-fill: #444;
+    -fx-cursor: hand;
+}
+.clear-places-button:hover {
+    -fx-border-color: #000;
+    -fx-text-fill: #000;
+}

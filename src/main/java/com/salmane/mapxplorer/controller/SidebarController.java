@@ -45,6 +45,8 @@ public class SidebarController {
     public ListView<Location> placesListView;
     @FXML
     public ProgressIndicator spinner;
+    @FXML
+    public Button clearPLacesButton;
     private final Dotenv dotenv = Dotenv.load();
     private final Gson gson = new Gson();
 
@@ -129,6 +131,7 @@ public class SidebarController {
             searchButton.setText("Search");
             spinner.setVisible(false);
             searchButton.setDisable(false);
+            clearPLacesButton.setVisible(true);
         });
 
         nearbyPLacesTask.setOnFailed(workerStateEvent -> {
@@ -164,6 +167,14 @@ public class SidebarController {
         alert.setHeaderText(null);
         alert.setContentText(content);
         alert.showAndWait();
+    }
+    @FXML
+    private void handleClearPLaces() {
+            placesListView.getItems().clear();
+            DataManager.getInstance().getEngine().executeScript("removePLacesMarkers()");
+            typesComboBox.valueProperty().setValue(null);
+            radiusSlider.setValue(1);
+            clearPLacesButton.setVisible(false);
     }
 
 }

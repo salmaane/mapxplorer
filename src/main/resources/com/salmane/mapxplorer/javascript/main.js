@@ -108,3 +108,7 @@ function placeMarkers(locations, myLocation, radius) {
     map.fitBounds(circle.getBounds());
 
 }
+function removePLacesMarkers() {
+    if(markers) markers.map(marker => marker.remove());
+    if(circle) circle.remove();
+}
