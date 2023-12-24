@@ -4,12 +4,15 @@ import com.google.gson.Gson;
 import com.salmane.mapxplorer.model.DataManager;
 import com.salmane.mapxplorer.model.Location;
 import com.salmane.mapxplorer.model.Route;
+import com.salmane.mapxplorer.model.TablePlaceInfo;
 import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView;
 import io.github.cdimascio.dotenv.Dotenv;
+import javafx.collections.ObservableList;
 import javafx.concurrent.Task;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
@@ -43,13 +46,17 @@ public class SidebarController {
     @FXML
     public VBox nearbyPlacesContainer;
     @FXML
-    public ListView<Location> placesListView;
-    @FXML
     public ProgressIndicator spinner;
     @FXML
     public Button clearPLacesButton;
     private final Dotenv dotenv = Dotenv.load();
     private final Gson gson = new Gson();
+    @FXML
+    public TableView<TablePlaceInfo> placesTable;
+    @FXML
+    public TableColumn<TablePlaceInfo, String> nameCol;
+    @FXML
+    public TableColumn<TablePlaceInfo, String> distanceCol;
 
     public void initialize() {
         DataManager.getInstance().setSidebarController(this);
@@ -57,6 +64,7 @@ public class SidebarController {
         initTooltips();
         initTypesCombobox();
         initRadiusSlider();
+        initPLacesTableView();
     }
 
     private void initTooltips() {
@@ -98,8 +106,14 @@ public class SidebarController {
         typesComboBox.setDisable(false);
         radiusSlider.setDisable(false);
         searchButton.setDisable(false);
-        placesListView.setDisable(false);
+        placesTable.setDisable(false);
         nearbyPlacesContainer.getChildren().remove(activateLocationMessage);
+    }
+    public void initPLacesTableView() {
+        nameCol.setResizable(false);
+        distanceCol.setResizable(false);
+        nameCol.setCellValueFactory(new PropertyValueFactory<TablePlaceInfo, String>("Name"));
+        distanceCol.setCellValueFactory(new PropertyValueFactory<TablePlaceInfo, String>("Distance"));
     }
 
     @FXML
@@ -127,8 +141,18 @@ public class SidebarController {
             getRoutesTask.setOnSucceeded(workerStateEvent1 -> {
                 Route[] routes = getRoutesTask.getValue();
 
-                if(!placesListView.getItems().isEmpty()) placesListView.getItems().clear();
-                placesListView.getItems().addAll(places);
+                ObservableList<TablePlaceInfo> placeInfoList = placesTable.getItems();
+                placeInfoList.clear();
+                for(Route route : routes) {
+                    int destIndex = route.getDestinationIndex();
+                    String name = places[destIndex].getDisplayName().getText();
+                    String distance = route.getDistanceMeters() + " m";
+                    if (route.getDistanceMeters() > 1000) {
+                        distance = String.format("%.1f",(double)route.getDistanceMeters()/1000) + " Km";
+                    }
+                    placeInfoList.add(new TablePlaceInfo(name, distance));
+                }
+                placesTable.setItems(placeInfoList);
 
                 engine.executeScript("placeMarkers("
                         + gson.toJson(places)
@@ -189,7 +213,8 @@ public class SidebarController {
             protected Route[] call() throws Exception {
                 return DataManager.getInstance().getLocationController().getRoutes(
                         dotenv.get("GOOGLE_API_KEY"),
-                        "*", lat, lon, places
+                        "originIndex,destinationIndex,status,condition,distanceMeters,duration",
+                        lat, lon, places
                 );
             }
         };
@@ -203,7 +228,7 @@ public class SidebarController {
     }
     @FXML
     private void handleClearPLaces() {
-            placesListView.getItems().clear();
+            placesTable.getItems().clear();
             DataManager.getInstance().getEngine().executeScript("removePLacesMarkers()");
             typesComboBox.valueProperty().setValue(null);
             radiusSlider.setValue(1);

@@ -120,7 +120,7 @@ public class LocationController {
     ) {
         RoutesMatrixRequest routesMatrixRequest = createRoutesMatrixRequest(lat, lon, places);
         String jsonBody = gson.toJson(routesMatrixRequest, RoutesMatrixRequest.class);
-        System.out.println(jsonBody);
+
         try {
             HttpRequest postRequest = null;
             postRequest = HttpRequest.newBuilder()
@@ -161,7 +161,7 @@ public class LocationController {
         for(Location place : places) {
             RoutesMatrixRequest.Waypoint destination = new RoutesMatrixRequest.Waypoint();
             RoutesMatrixRequest.Waypoint.WaypointDetails destinationDetails = new RoutesMatrixRequest.Waypoint.WaypointDetails();
-            destinationDetails.setPlaceId("ChIJZxSQSDrLpw0RQ---8sA65qU");
+            destinationDetails.setPlaceId(place.getId());
             destination.setWaypoint(destinationDetails);
 
             destinations.add(destination);

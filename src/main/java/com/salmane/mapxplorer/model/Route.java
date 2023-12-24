@@ -1,18 +1,13 @@
 package com.salmane.mapxplorer.model;
 
 public class Route {
+    private Integer destinationIndex;
+    private Integer originIndex;
     private Integer distanceMeters;
     private String duration;
     private String staticDuration;
-    private Polyline polyline;
+    private String condition;
 
-    public class Polyline {
-        private String encodedPolyline;
-
-        public String getEncodedPolyline() {
-            return encodedPolyline;
-        }
-    }
 
     public Integer getDistanceMeters() {
         return distanceMeters;
@@ -32,10 +27,22 @@ public class Route {
     public void setStaticDuration(String staticDuration) {
         this.staticDuration = staticDuration;
     }
-    public Polyline getPolyline() {
-        return polyline;
+    public Integer getDestinationIndex() {
+        return destinationIndex;
     }
-    public void setPolyline(Polyline polyline) {
-        this.polyline = polyline;
+    public void setDestinationIndex(Integer destinationIndex) {
+        this.destinationIndex = destinationIndex;
+    }
+    public Integer getOriginIndex() {
+        return originIndex;
+    }
+    public void setOriginIndex(Integer originIndex) {
+        this.originIndex = originIndex;
+    }
+    public String getCondition() {
+        return condition;
+    }
+    public void setCondition(String condition) {
+        this.condition = condition;
     }
 }

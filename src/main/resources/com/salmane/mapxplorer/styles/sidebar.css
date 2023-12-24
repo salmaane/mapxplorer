@@ -32,14 +32,6 @@
     -fx-fill: #fff;
 }
 
-.listview {
-    -fx-background-color: #fff;
-    -fx-border-color: #225be5;
-    -fx-font-size: 12;
-    -fx-background-radius: 4px;
-    -fx-border-radius: 4px;
-}
-
 .combobox .list-cell:filled:focused {
     -fx-background-color: #fff;
     -fx-text-fill: #000;
@@ -58,16 +50,6 @@
     -fx-background-color: #ffe89b;
     -fx-text-fill: #000;
     -fx-cursor: hand;
-}
-
-.listview .list-cell:focused:filled:selected {
-    -fx-background-color: #225be5;
-    -fx-font-weight: bold;
-    -fx-text-fill: #fff;
-}
-
-.listview .list-cell:odd {
-    -fx-background-color: #fff;
 }
 
 .search-button {
