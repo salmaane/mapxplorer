@@ -3,6 +3,7 @@ package com.salmane.mapxplorer.controller;
 import com.google.gson.Gson;
 import com.salmane.mapxplorer.model.DataManager;
 import com.salmane.mapxplorer.model.Location;
+import com.salmane.mapxplorer.model.Route;
 import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView;
 import io.github.cdimascio.dotenv.Dotenv;
 import javafx.concurrent.Task;
@@ -117,30 +118,51 @@ public class SidebarController {
         nearbyPLacesTask.setOnSucceeded(workerStateEvent -> {
             WebEngine engine = DataManager.getInstance().getEngine();
             Location[] places = nearbyPLacesTask.getValue();
-            if(!placesListView.getItems().isEmpty()) placesListView.getItems().clear();
-            placesListView.getItems().addAll(places);
 
-            engine.executeScript("placeMarkers("
-                    + gson.toJson(places)
-                    + "," + gson.toJson(DataManager.getInstance().getMyLocation())
-                    + "," + radiusSlider.getValue() * 1_000
-            +")");
+            Task<Route[]> getRoutesTask = getRoutesTask(
+                    Double.valueOf(latTextField.getText()),
+                    Double.valueOf(lonTextField.getText()),
+                    places
+            );
+            getRoutesTask.setOnSucceeded(workerStateEvent1 -> {
+                Route[] routes = getRoutesTask.getValue();
 
-            // UI UPDATES
-            placesNumber.setText("(" +  places.length + ")");
-            searchButton.setText("Search");
-            spinner.setVisible(false);
-            searchButton.setDisable(false);
-            clearPLacesButton.setVisible(true);
+                if(!placesListView.getItems().isEmpty()) placesListView.getItems().clear();
+                placesListView.getItems().addAll(places);
+
+                engine.executeScript("placeMarkers("
+                        + gson.toJson(places)
+                        + "," + gson.toJson(DataManager.getInstance().getMyLocation())
+                        + "," + radiusSlider.getValue() * 1_000
+                +")");
+
+                // UI UPDATES
+                placesNumber.setText("(" +  places.length + ")");
+                searchButton.setText("Search");
+                spinner.setVisible(false);
+                searchButton.setDisable(false);
+                clearPLacesButton.setVisible(true);
+            });
+            getRoutesTask.setOnFailed(workerStateEvent1 -> {
+                // UI UPDATES
+                searchButton.setText("Search");
+                spinner.setVisible(true);
+                searchButton.setDisable(false);
+
+                Throwable exception = getRoutesTask.getException();
+                if (exception != null) {
+                    exception.printStackTrace();
+                }
+            });
+            new Thread(getRoutesTask).start();
+
         });
-
         nearbyPLacesTask.setOnFailed(workerStateEvent -> {
             // UI UPDATES
             searchButton.setText("Search");
             spinner.setVisible(true);
             searchButton.setDisable(false);
         });
-
         new Thread(nearbyPLacesTask).start();
     }
     @NotNull
@@ -157,6 +179,17 @@ public class SidebarController {
                         20, Double.valueOf(latTextField.getText()),
                         Double.valueOf(lonTextField.getText()),
                         radiusSlider.getValue()
+                );
+            }
+        };
+    }
+    private Task<Route[]> getRoutesTask(Double lat, Double lon, Location[] places) {
+        return new Task<Route[]>() {
+            @Override
+            protected Route[] call() throws Exception {
+                return DataManager.getInstance().getLocationController().getRoutes(
+                        dotenv.get("GOOGLE_API_KEY"),
+                        "*", lat, lon, places
                 );
             }
         };

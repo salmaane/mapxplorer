@@ -6,11 +6,14 @@ import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import com.salmane.mapxplorer.model.DataManager;
 import com.salmane.mapxplorer.model.Location;
+import com.salmane.mapxplorer.model.Route;
+import com.salmane.mapxplorer.request.RoutesMatrixRequest;
 import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.web.WebEngine;
+import org.jetbrains.annotations.NotNull;
 
 import java.io.IOException;
 import java.net.URI;
@@ -18,6 +21,8 @@ import java.net.URISyntaxException;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
+import java.util.ArrayList;
+import java.util.List;
 
 public class LocationController {
     private final Gson gson = new Gson();
@@ -105,6 +110,81 @@ public class LocationController {
             throw new RuntimeException(e);
         }
     }
+
+    public Route[] getRoutes(
+            String googleApiKey,
+            String fields,
+            Double lat,
+            Double lon,
+            Location[] places
+    ) {
+        RoutesMatrixRequest routesMatrixRequest = createRoutesMatrixRequest(lat, lon, places);
+        String jsonBody = gson.toJson(routesMatrixRequest, RoutesMatrixRequest.class);
+        System.out.println(jsonBody);
+        try {
+            HttpRequest postRequest = null;
+            postRequest = HttpRequest.newBuilder()
+                    .uri(new URI("https://routes.googleapis.com/distanceMatrix/v2:computeRouteMatrix"))
+                    .header("Content-Type", "application/json")
+                    .header("X-Goog-Api-Key", googleApiKey)
+                    .header("X-Goog-FieldMask", fields)
+                    .POST(HttpRequest.BodyPublishers.ofString(jsonBody))
+                    .build();
+
+            HttpResponse<String> response = httpClient.send(postRequest, HttpResponse.BodyHandlers.ofString());
+
+            return gson.fromJson(response.body(), Route[].class);
+        } catch (URISyntaxException | IOException | InterruptedException e) {
+            throw new RuntimeException(e);
+        }
+    }
+    private RoutesMatrixRequest createRoutesMatrixRequest(Double lat, Double lon, Location[] places) {
+        RoutesMatrixRequest routesMatrixRequest = new RoutesMatrixRequest();
+
+        // Create and set origin
+        RoutesMatrixRequest.Waypoint origin = getWaypoint(lat, lon);
+
+        // Create and set destinations
+        List<RoutesMatrixRequest.Waypoint> destinations = getWaypoints(places);
+
+        // Set other properties
+        routesMatrixRequest.setOrigins(List.of(origin));
+        routesMatrixRequest.setDestinations(destinations);
+        routesMatrixRequest.setTravelMode("DRIVE");
+        routesMatrixRequest.setRoutingPreference("TRAFFIC_AWARE");
+
+        return routesMatrixRequest;
+    }
+    @NotNull
+    private static List<RoutesMatrixRequest.Waypoint> getWaypoints(Location[] places) {
+        List<RoutesMatrixRequest.Waypoint> destinations = new ArrayList<>();
+        for(Location place : places) {
+            RoutesMatrixRequest.Waypoint destination = new RoutesMatrixRequest.Waypoint();
+            RoutesMatrixRequest.Waypoint.WaypointDetails destinationDetails = new RoutesMatrixRequest.Waypoint.WaypointDetails();
+            destinationDetails.setPlaceId("ChIJZxSQSDrLpw0RQ---8sA65qU");
+            destination.setWaypoint(destinationDetails);
+
+            destinations.add(destination);
+        }
+        return destinations;
+    }
+    @NotNull
+    private static RoutesMatrixRequest.Waypoint getWaypoint(Double lat, Double lon) {
+        RoutesMatrixRequest.Waypoint origin = new RoutesMatrixRequest.Waypoint();
+        RoutesMatrixRequest.Waypoint.WaypointDetails.wpLocation originLocation = new RoutesMatrixRequest.Waypoint.WaypointDetails.wpLocation();
+        RoutesMatrixRequest.Waypoint.WaypointDetails.wpLocation.LatLng originLatLng = new RoutesMatrixRequest.Waypoint.WaypointDetails.wpLocation.LatLng();
+        RoutesMatrixRequest.Waypoint.WaypointDetails waypointDetails = new RoutesMatrixRequest.Waypoint.WaypointDetails();
+        originLatLng.setLatitude(lat);
+        originLatLng.setLongitude(lon);
+        originLocation.setLatLng(originLatLng);
+        waypointDetails.setLocation(originLocation);
+        origin.setWaypoint(waypointDetails);
+        RoutesMatrixRequest.Waypoint.RouteModifiers originModifiers = new RoutesMatrixRequest.Waypoint.RouteModifiers();
+        originModifiers.setAvoid_ferries(true);
+        origin.setRouteModifiers(originModifiers);
+        return origin;
+    }
+
 
 }
 

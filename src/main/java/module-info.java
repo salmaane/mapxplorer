@@ -11,6 +11,7 @@ module com.salmane.mapxplorer {
     requires annotations;
 
     opens com.salmane.mapxplorer.model to com.google.gson;
+    opens com.salmane.mapxplorer.request to com.google.gson;
     opens com.salmane.mapxplorer to javafx.fxml;
     exports com.salmane.mapxplorer;
     exports com.salmane.mapxplorer.controller;
