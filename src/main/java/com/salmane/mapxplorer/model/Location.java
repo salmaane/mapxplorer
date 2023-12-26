@@ -119,6 +119,6 @@ public class Location {
 
     @Override
     public String toString() {
-        return formattedAddress;
+        return displayName.getText();
     }
 }

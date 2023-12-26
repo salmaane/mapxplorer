@@ -108,7 +108,7 @@
                   </HBox>
                </children>
             </VBox>
-            <TableView fx:id="placesTable" disable="true" prefHeight="510.0" prefWidth="301.0">
+            <TableView fx:id="placesTable" disable="true" prefHeight="510.0" prefWidth="301.0" styleClass="tableView" stylesheets="@../styles/placesTableView.css">
               <columns>
                 <TableColumn fx:id="nameCol" prefWidth="209.59997272491455" text="Name" />
                 <TableColumn fx:id="distanceCol" prefWidth="91.20008850097656" text="Distance" />

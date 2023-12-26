@@ -12,6 +12,9 @@ import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView;
 import io.github.cdimascio.dotenv.Dotenv;
 import javafx.animation.PauseTransition;
 import javafx.application.Platform;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
+import javafx.concurrent.Worker;
 import javafx.fxml.FXML;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
@@ -22,6 +25,7 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.web.WebEngine;
 import javafx.scene.web.WebView;
 import javafx.util.Duration;
+import netscape.javascript.JSObject;
 
 import java.io.IOException;
 import java.lang.reflect.Type;
@@ -68,6 +72,17 @@ public class LeafletMapController {
         locationController = new LocationController(engine);
         DataManager.getInstance().setLocationController(locationController);
         DataManager.getInstance().setEngine(engine);
+
+        engine.getLoadWorker().stateProperty().addListener(new ChangeListener<Worker.State>() {
+            @Override
+            public void changed(ObservableValue<? extends Worker.State> observableValue, Worker.State state, Worker.State t1) {
+                if (t1 == Worker.State.SUCCEEDED) {
+                    JSObject window = (JSObject) engine.executeScript("window");
+                    window.setMember("SidebarController", DataManager.getInstance().getSidebarController());
+                }
+            }
+        });
+
         initSearchbar();
     }
 

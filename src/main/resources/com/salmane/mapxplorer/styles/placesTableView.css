@@ -1,0 +1,15 @@
+.tableView:focused {
+    -fx-background-insets: 0 0 0 0;
+}
+
+.table-row-cell {
+    -fx-cursor: hand;
+}
+.tableView .table-row-cell:selected {
+    -fx-background-color: #225be5;
+    -fx-font-weight: bold;
+    -fx-text-fill: #fff;
+}
+.tableView:focused .table-row-cell:focused {
+    -fx-background-insets: 0 0 0 0;
+}

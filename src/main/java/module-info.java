@@ -9,6 +9,7 @@ module com.salmane.mapxplorer {
     requires com.google.gson;
     requires java.dotenv;
     requires annotations;
+    requires jdk.jsobject;
 
     opens com.salmane.mapxplorer.model to com.google.gson;
     opens com.salmane.mapxplorer.request to com.google.gson;

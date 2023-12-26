@@ -114,8 +114,14 @@ public class SidebarController {
         distanceCol.setResizable(false);
         nameCol.setCellValueFactory(new PropertyValueFactory<TablePlaceInfo, String>("Name"));
         distanceCol.setCellValueFactory(new PropertyValueFactory<TablePlaceInfo, String>("Distance"));
+        nameCol.setSortable(false);
+        distanceCol.setSortable(false);
     }
 
+    public void handleMarkerClick(String location) {
+        Location place = gson.fromJson(location, Location.class);
+        System.out.println(place);
+    }
     @FXML
     private void handleSearchButtonClick(ActionEvent event) {
         if(typesComboBox.getSelectionModel().isEmpty()) {
@@ -145,12 +151,13 @@ public class SidebarController {
                 placeInfoList.clear();
                 for(Route route : routes) {
                     int destIndex = route.getDestinationIndex();
-                    String name = places[destIndex].getDisplayName().getText();
+                    Location place = places[destIndex];
+                    String name = place.getDisplayName().getText();
                     String distance = route.getDistanceMeters() + " m";
                     if (route.getDistanceMeters() > 1000) {
                         distance = String.format("%.1f",(double)route.getDistanceMeters()/1000) + " Km";
                     }
-                    placeInfoList.add(new TablePlaceInfo(name, distance));
+                    placeInfoList.add(new TablePlaceInfo(name, distance, place, route));
                 }
                 placesTable.setItems(placeInfoList);
 

@@ -19,10 +19,11 @@ function goToLocation(location) {
 
     searchMarker = L.marker([location.location.latitude, location.location.longitude], {
         riseOnHover: true,
-        bounceOnAdd: false
+        bounceOnAdd: false,
+        title: location.displayName.text,
+    }).on('click', function () {
+        SidebarController.handleMarkerClick(JSON.stringify(location));
     }).addTo(map);
-
-    searchMarker.bindPopup("<strong>"+ location.formattedAddress + "</strong>");
 }
 
 // Remove marker from map
@@ -97,11 +98,14 @@ function placeMarkers(locations, myLocation, radius) {
         shadowSize: [41, 41]
     });
     markers = locations.map(location => {
-        return L.marker([location.location.latitude, location.location.longitude], {
+        let marker =  L.marker([location.location.latitude, location.location.longitude], {
             riseOnHover: true,
             bounceOnAdd: true,
             icon: greenIcon,
+            title: location.displayName.text,
         }).addTo(map);
+
+        return marker;
     });
 
     goToDeviceLocation(myLocation, undefined);
