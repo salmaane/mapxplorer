@@ -5,17 +5,13 @@
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.Cursor?>
 <?import javafx.scene.control.Button?>
-<?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ListView?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.control.Tooltip?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
-<?import javafx.scene.text.Font?>
-<?import javafx.scene.text.Text?>
 <?import javafx.scene.web.WebView?>
-<?import org.controlsfx.control.Rating?>
 
 <AnchorPane minWidth="1150.0" prefHeight="746.0" style="-fx-background-color: #aaa;" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.salmane.mapxplorer.controller.LeafletMapController">
    <children>
@@ -59,69 +55,6 @@
          </cursor></FontAwesomeIconView>
       <VBox fx:id="placeInfoBox" layoutX="560.8000000000001" layoutY="62.4" prefHeight="685.0" prefWidth="582.0" spacing="20.0" styleClass="infos-box-container" stylesheets="@../styles/placeInfosBox.css" AnchorPane.bottomAnchor="0.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="62.0">
          <children>
-            <VBox prefHeight="25.0" prefWidth="543.0" spacing="3.0">
-               <children>
-                  <HBox alignment="CENTER_RIGHT" prefHeight="28.0" prefWidth="551.0">
-                     <children>
-                        <FontAwesomeIconView fx:id="closeInfoBox" fill="#555555" glyphName="CLOSE" size="25" />
-                     </children>
-                  </HBox>
-                  <Text fx:id="displayName" strokeType="OUTSIDE" strokeWidth="0.0" text="Place Display Name" visible="false" wrappingWidth="541.2521896362305">
-                     <font>
-                        <Font name="Calibri" size="26.0" />
-                     </font>
-                  </Text>
-                  <Text fx:id="primaryType" fill="#444444" strokeType="OUTSIDE" strokeWidth="0.0" text="restaurant" visible="false" wrappingWidth="540.3609504699707">
-                     <font>
-                        <Font name="Calibri" size="20.0" />
-                     </font>
-                  </Text>
-                  <HBox alignment="CENTER_LEFT" prefHeight="3.0" prefWidth="543.0" spacing="10.0" visible="false">
-                     <children>
-                        <Rating fx:id="rating" partialRating="true" prefHeight="28.0" prefWidth="78.0" rating="2.5" styleClass="rating" />
-                        <Label fx:id="ratingCount" prefHeight="24.0" prefWidth="42.0" text="(4.4)">
-                           <font>
-                              <Font size="14.0" />
-                           </font>
-                        </Label>
-                     </children>
-                  </HBox>
-               </children>
-            </VBox>
-            <VBox prefHeight="5.0" prefWidth="542.0" spacing="10.0">
-               <children>
-                  <HBox fx:id="phoneContainer" alignment="CENTER_LEFT" prefHeight="7.0" prefWidth="543.0" spacing="10.0" visible="false">
-                     <children>
-                        <FontAwesomeIconView fill="#225be5" glyphName="PHONE" size="20" />
-                        <Text fx:id="phoneText" strokeType="OUTSIDE" strokeWidth="0.0" text="phone number" wrappingWidth="514.8488464355469">
-                           <font>
-                              <Font size="16.0" />
-                           </font>
-                        </Text>
-                     </children>
-                  </HBox>
-                  <HBox fx:id="addressContainer" alignment="CENTER_LEFT" prefHeight="7.0" prefWidth="543.0" spacing="15.0" visible="false">
-                     <children>
-                        <FontAwesomeIconView fill="#225be5" glyphName="MAP_PIN" size="20" />
-                        <Text fx:id="addressText" strokeType="OUTSIDE" strokeWidth="0.0" text="address" wrappingWidth="514.8488464355469">
-                           <font>
-                              <Font size="16.0" />
-                           </font>
-                        </Text>
-                     </children>
-                  </HBox>
-                  <HBox fx:id="websiteContainer" alignment="CENTER_LEFT" prefHeight="7.0" prefWidth="543.0" spacing="10.0" visible="false">
-                     <children>
-                        <FontAwesomeIconView fill="#225be5" glyphName="LINK" size="20" />
-                        <Text fx:id="websiteText" strokeType="OUTSIDE" strokeWidth="0.0" text="website" wrappingWidth="514.8488464355469">
-                           <font>
-                              <Font size="16.0" />
-                           </font>
-                        </Text>
-                     </children>
-                  </HBox>
-               </children>
-            </VBox>
             <HBox fx:id="typesContainer" prefHeight="0.0" prefWidth="542.0" spacing="10.0" styleClass="types-container" />
          </children>
       </VBox>

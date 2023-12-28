@@ -11,6 +11,7 @@ import com.salmane.mapxplorer.model.PlacePredictions;
 import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView;
 import io.github.cdimascio.dotenv.Dotenv;
 import javafx.animation.PauseTransition;
+import javafx.animation.TranslateTransition;
 import javafx.application.Platform;
 import javafx.concurrent.Worker;
 import javafx.fxml.FXML;
@@ -61,6 +62,8 @@ public class LeafletMapController {
     public FontAwesomeIconView returnToLocationIcon;
     @FXML
     public VBox placeInfoBox;
+    public TranslateTransition detailsBoxTransitionUp;
+    public TranslateTransition detailsBoxTransitionDown;
     private Location activeLocation = null;
     private Location myLocation = null;
     private LocationController locationController;
@@ -79,6 +82,7 @@ public class LeafletMapController {
         locationController = new LocationController(engine);
         DataManager.getInstance().setLocationController(locationController);
         DataManager.getInstance().setEngine(engine);
+        DataManager.getInstance().setLeafletMapController(this);
 
         engine.getLoadWorker().stateProperty().addListener((observable, oldValue, newValue) -> {
             if (newValue == Worker.State.SUCCEEDED) {
@@ -91,11 +95,12 @@ public class LeafletMapController {
         initSearchbar();
         initPLaceInfoBox();
     }
+
     public void handleMarkerClick(String location) {
         try {
             Location place = gson.fromJson(location, Location.class);
             preparePlaceInfoBox(place);
-            placeInfoBox.setTranslateY(0);
+            detailsBoxTransitionUp.play();
         } catch (Exception e) {
             System.out.println(e.getMessage());
         }
@@ -107,7 +112,7 @@ public class LeafletMapController {
         closeInfoBox.setGlyphName("CLOSE");
         closeInfoBox.setGlyphSize(22);
         closeInfoBox.getStyleClass().add("close-info-box");
-        closeInfoBox.setOnMouseClicked((event) -> placeInfoBox.setTranslateY(685));
+        closeInfoBox.setOnMouseClicked((event) -> detailsBoxTransitionDown.play());
         HBox closeIconContainer = new HBox(closeInfoBox);
         closeIconContainer.setAlignment(Pos.CENTER_RIGHT);
         placeInfoBox.getChildren().add(closeIconContainer);
@@ -189,7 +194,16 @@ public class LeafletMapController {
         }
     }
     private void initPLaceInfoBox() {
-        placeInfoBox.setTranslateY(685);
+        placeInfoBox.setMaxWidth(610);
+        placeInfoBox.setTranslateY(690);
+
+        detailsBoxTransitionUp = new TranslateTransition(Duration.millis(400), placeInfoBox);
+        detailsBoxTransitionUp.setFromY(690);
+        detailsBoxTransitionUp.setToY(0);
+
+        detailsBoxTransitionDown = new TranslateTransition(Duration.millis(400), placeInfoBox);
+        detailsBoxTransitionDown.setFromY(0);
+        detailsBoxTransitionDown.setToY(690);
     }
 
     private void initSearchbar() {
@@ -216,7 +230,7 @@ public class LeafletMapController {
                     autocompleteList,
                     activeLocation
             );
-            placeInfoBox.setTranslateY(685);
+            detailsBoxTransitionDown.play();
         });
         returnToLocationIcon.setOnMouseClicked(event -> locationController.GoToLocation(activeLocation));
 
@@ -224,7 +238,6 @@ public class LeafletMapController {
         myLocationTooltip.setShowDuration(new Duration(900));
         myLocationIcon.setOnMouseClicked(event -> locationController.goToDeviceLocation(event, myLocation));
     }
-
     private void handleSearchEvent(KeyEvent event) {
         timer.cancel();
         timer = new Timer();
@@ -276,7 +289,6 @@ public class LeafletMapController {
             }
         }, 500);
     }
-
     private void handleAutocompleteSelection(MouseEvent event) {
         PlacePredictions selectedPrediction = autocompleteList.getSelectionModel().getSelectedItem();
         if (selectedPrediction != null) {

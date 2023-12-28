@@ -103,6 +103,8 @@ function placeMarkers(locations, myLocation, radius) {
             bounceOnAdd: true,
             icon: greenIcon,
             title: location.displayName.text,
+        }).on('click', function () {
+            LeafletMapController.handleMarkerClick(JSON.stringify(location));
         }).addTo(map);
 
         return marker;

@@ -5,7 +5,6 @@ import com.salmane.mapxplorer.model.DataManager;
 import com.salmane.mapxplorer.model.Location;
 import com.salmane.mapxplorer.model.Route;
 import com.salmane.mapxplorer.model.TablePlaceInfo;
-import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView;
 import io.github.cdimascio.dotenv.Dotenv;
 import javafx.collections.ObservableList;
 import javafx.concurrent.Task;
@@ -18,15 +17,10 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 import javafx.scene.web.WebEngine;
-import javafx.util.Duration;
 import org.jetbrains.annotations.NotNull;
 
 public class SidebarController {
     public AnchorPane sidebar;
-    public FontAwesomeIconView homeIcon;
-    public FontAwesomeIconView savedIcon;
-    public FontAwesomeIconView offlineIcon;
-    public FontAwesomeIconView aboutIcon;
     @FXML
     public ComboBox<String> typesComboBox;
     @FXML
@@ -61,34 +55,11 @@ public class SidebarController {
     public void initialize() {
         DataManager.getInstance().setSidebarController(this);
         DataManager.getInstance().setLatLonFields(latTextField, lonTextField);
-        initTooltips();
         initTypesCombobox();
         initRadiusSlider();
         initPLacesTableView();
     }
 
-    private void initTooltips() {
-        Tooltip homeTooltip = new Tooltip("Home");
-        homeTooltip.setStyle("-fx-font-size: 10px;");
-        homeTooltip.setShowDelay(Duration.millis(100));
-        Tooltip savedTooltip = new Tooltip("Saved locations");
-        savedTooltip.setStyle("-fx-font-size: 10px;");
-        savedTooltip.setShowDelay(Duration.millis(100));
-        Tooltip offlineTooltip = new Tooltip("Offline maps");
-        offlineTooltip.setStyle("-fx-font-size: 10px;");
-        offlineTooltip.setShowDelay(Duration.millis(100));
-        Tooltip aboutTooltip = new Tooltip("About");
-        aboutTooltip.setStyle("-fx-font-size: 10px;");
-        aboutTooltip.setShowDelay(Duration.millis(100));
-        Tooltip menuTooltip = new Tooltip("menu");
-        menuTooltip.setStyle("-fx-font-size: 10px;");
-        menuTooltip.setShowDelay(Duration.millis(100));
-
-        Tooltip.install(homeIcon, homeTooltip);
-        Tooltip.install(savedIcon, savedTooltip);
-        Tooltip.install(offlineIcon, offlineTooltip);
-        Tooltip.install(aboutIcon, aboutTooltip);
-    }
     private void initTypesCombobox() {
         String[] placeTypes = new String[]{
                 "Restaurant","Police", "Hospital", "Pharmacy", "Doctor", "Hotel", "Mosque", "Market",
@@ -128,6 +99,9 @@ public class SidebarController {
         searchButton.setText("");
         spinner.setVisible(true);
         searchButton.setDisable(true);
+        if(DataManager.getInstance().getLeafletMapController().placeInfoBox.getTranslateY() == 0) {
+            DataManager.getInstance().getLeafletMapController().detailsBoxTransitionDown.play();
+        }
 
         Task<Location[]> nearbyPLacesTask = getNearbyPlcaesTask();
 
@@ -236,6 +210,9 @@ public class SidebarController {
             typesComboBox.valueProperty().setValue(null);
             radiusSlider.setValue(1);
             clearPLacesButton.setVisible(false);
+            if(DataManager.getInstance().getLeafletMapController().placeInfoBox.getTranslateY() == 0) {
+                DataManager.getInstance().getLeafletMapController().detailsBoxTransitionDown.play();
+            }
     }
 
 }

@@ -1,5 +1,6 @@
 package com.salmane.mapxplorer.model;
 
+import com.salmane.mapxplorer.controller.LeafletMapController;
 import com.salmane.mapxplorer.controller.LocationController;
 import com.salmane.mapxplorer.controller.SidebarController;
 import javafx.scene.control.TextField;
@@ -13,6 +14,7 @@ public class DataManager {
     private TextField longitude;
     private WebEngine engine = null;
     private Location myLocation = null;
+    private LeafletMapController leafletMapController;
 
 
     private DataManager() {}
@@ -58,5 +60,12 @@ public class DataManager {
     }
     public void setMyLocation(Location myLocation) {
         this.myLocation = myLocation;
+    }
+
+    public LeafletMapController getLeafletMapController() {
+        return leafletMapController;
+    }
+    public void setLeafletMapController(LeafletMapController leafletMapController) {
+        this.leafletMapController = leafletMapController;
     }
 }

@@ -42,13 +42,15 @@
     -fx-font-size: 16;
 }
 
-
+.types-container {
+    -fx-spacing: 8;
+}
 .types-container .button:disabled {
     -fx-background-color: #fff;
     -fx-text-fill: #225be5;
     -fx-opacity: 1;
     -fx-font-weight: bold;
-    -fx-font-size: 13;
+    -fx-font-size: 12;
     -fx-border-style: solid;
     -fx-border-color: #225be5;
     -fx-border-radius: 15px;
