@@ -22,7 +22,7 @@ function goToLocation(location) {
         bounceOnAdd: false,
         title: location.displayName.text,
     }).on('click', function () {
-        SidebarController.handleMarkerClick(JSON.stringify(location));
+        LeafletMapController.handleMarkerClick(JSON.stringify(location));
     }).addTo(map);
 }
 

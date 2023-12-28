@@ -118,10 +118,6 @@ public class SidebarController {
         distanceCol.setSortable(false);
     }
 
-    public void handleMarkerClick(String location) {
-        Location place = gson.fromJson(location, Location.class);
-        System.out.println(place);
-    }
     @FXML
     private void handleSearchButtonClick(ActionEvent event) {
         if(typesComboBox.getSelectionModel().isEmpty()) {

@@ -2,20 +2,21 @@ package com.salmane.mapxplorer.model;
 
 public class Location {
     private String id;
-    private String formattedAddress;
+    private String formattedAddress; // ===================
     private String shortFormattedAddress;
-    private String[] types;
+    private String[] types; // ==========================
     private Coords location;
     private Viewport viewport;
     private Integer utcOffsetMinutes;
-    private DisplayName displayName;
+    private DisplayName displayName;  // ==========================
+    private DisplayName primaryTypeDisplayName; // =======================
     private Photo[] photos;
-    private Double rating;
-    private Integer userRatingCount;
+    private Double rating; // ==================
+    private Integer userRatingCount; // ===================
     private String websiteUri;
     private Boolean goodForChildren;
-    private String nationalPhoneNumber;
-    private String internationalPhoneNumber;
+    private String nationalPhoneNumber; // ======================
+    private String internationalPhoneNumber; // =================
 
 
     public class Coords {
@@ -115,6 +116,30 @@ public class Location {
     }
     public void setLocation(Coords location) {
         this.location = location;
+    }
+    public DisplayName getPrimaryTypeDisplayName() {
+        return primaryTypeDisplayName;
+    }
+    public void setPrimaryTypeDisplayName(DisplayName primaryTypeDisplayName) {
+        this.primaryTypeDisplayName = primaryTypeDisplayName;
+    }
+    public Double getRating() {
+        return rating;
+    }
+    public void setRating(Double rating) {
+        this.rating = rating;
+    }
+    public String getNationalPhoneNumber() {
+        return nationalPhoneNumber;
+    }
+    public void setNationalPhoneNumber(String nationalPhoneNumber) {
+        this.nationalPhoneNumber = nationalPhoneNumber;
+    }
+    public String getWebsiteUri() {
+        return websiteUri;
+    }
+    public void setWebsiteUri(String websiteUri) {
+        this.websiteUri = websiteUri;
     }
 
     @Override
