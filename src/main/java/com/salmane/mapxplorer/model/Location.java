@@ -17,7 +17,7 @@ public class Location {
     private Boolean goodForChildren;
     private String nationalPhoneNumber;
     private String internationalPhoneNumber;
-
+    private Route route;
 
     public class Coords {
         private Double longitude;
@@ -140,6 +140,13 @@ public class Location {
     }
     public void setWebsiteUri(String websiteUri) {
         this.websiteUri = websiteUri;
+    }
+
+    public Route getRoute() {
+        return route;
+    }
+    public void setRoute(Route route) {
+        this.route = route;
     }
 
     @Override

@@ -246,6 +246,21 @@ public class LeafletMapController {
             websiteContainer.setSpacing(10);
             detailsContainer.getChildren().add(websiteContainer);
         }
+        if (place.getRoute().getDistanceMeters() != null) {
+            FontAwesomeIconView distanceIcon = new FontAwesomeIconView();
+            distanceIcon.getStyleClass().add("details-icon");
+            distanceIcon.setGlyphName("ROAD");
+            distanceIcon.setGlyphSize(19);
+            String distance = place.getRoute().getDistanceMeters() + " m";
+            if (place.getRoute().getDistanceMeters() > 1000) {
+                distance = String.format("%.1f",(double)place.getRoute().getDistanceMeters()/1000) + " Km";
+            }
+            Text website = new Text(distance);
+            website.getStyleClass().add("details-text");
+            HBox distanceContainer = new HBox(distanceIcon, website);
+            distanceContainer.setSpacing(10);
+            detailsContainer.getChildren().add(distanceContainer);
+        }
         placeInfoBox.getChildren().add(detailsContainer);
 
         if(place.getTypes() != null) {

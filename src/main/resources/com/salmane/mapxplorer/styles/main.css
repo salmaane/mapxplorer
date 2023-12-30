@@ -1,0 +1,29 @@
+.main-container {
+    -fx-background-image: url("../images/world-map-texture.png");
+    -fx-background-size: cover;
+}
+
+.name {
+    -fx-font-weight: bold;
+}
+
+.button {
+    -fx-background-color:  #073bb0;
+    -fx-text-fill: #fff;
+    -fx-font-weight: bold;
+    -fx-border-style: solid;
+    -fx-border-width: 2;
+    -fx-border-color: #073bb0;
+    -fx-border-radius: 4px;
+}
+.button:hover {
+    -fx-background-color: #fff;
+    -fx-border-style: solid;
+    -fx-border-width: 2;
+    -fx-border-color: #073bb0;
+    -fx-text-fill: #073bb0;
+    -fx-border-radius: 4px;
+}
+.button:hover .glyph-icon {
+    -fx-fill: #073bb0;
+}

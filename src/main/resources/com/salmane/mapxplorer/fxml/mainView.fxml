@@ -6,27 +6,23 @@
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane fx:id="mainAnchorPane" prefHeight="480.0" prefWidth="900.0" style="-fx-background-color: #073bb0;" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.salmane.mapxplorer.controller.MainController">
+<AnchorPane fx:id="mainAnchorPane" prefHeight="480.0" prefWidth="900.0" styleClass="main-container" stylesheets="@../styles/main.css" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.salmane.mapxplorer.controller.MainController">
    <children>
-      <ImageView fitHeight="150.0" fitWidth="200.0" layoutX="375.0" layoutY="62.0" pickOnBounds="true" preserveRatio="true">
-         <image>
-            <Image url="@../images/logos/logo.png" />
-         </image>
-      </ImageView>
-      <Text fill="WHITE" layoutX="377.0" layoutY="222.0" strokeType="OUTSIDE" strokeWidth="0.0" text="MapXplorer">
+      <Text fill="#073bb0" layoutX="592.0" layoutY="164.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="name" text="MapXplorer">
          <font>
             <Font name="Microsoft Sans Serif" size="28.0" />
          </font>
       </Text>
-      <Text fill="WHITE" layoutX="90.0" layoutY="265.0" strokeType="OUTSIDE" strokeWidth="0.0" text="A JavaFX-powered desktop app for exploring maps, finding nearby places, and uncovering insightful location statistics with OpenStreetMap data.&quot;" textAlignment="CENTER" wrappingWidth="718.8328132629395">
+      <Text fill="#222222" layoutX="464.0" layoutY="208.0" strokeType="OUTSIDE" strokeWidth="0.0" text="A JavaFX-powered desktop app for exploring maps, finding nearby places, and uncovering insightful location statistics with OpenStreetMap and Google maps data.&quot;" textAlignment="CENTER" wrappingWidth="399.6327705383301">
          <font>
-            <Font size="16.0" />
+            <Font name="System Bold Italic" size="16.0" />
          </font>
       </Text>
-      <Button alignment="CENTER" contentDisplay="RIGHT" graphicTextGap="10.0" layoutX="378.0" layoutY="349.0" mnemonicParsing="false" onAction="#handleProceedToMapClick" style="-fx-background-color: #F9CC0B;" text="Procees to map" textAlignment="CENTER" textFill="WHITE">
+      <Button alignment="CENTER" contentDisplay="RIGHT" graphicTextGap="10.0" layoutX="590.0" layoutY="316.0" mnemonicParsing="false" onAction="#handleProceedToMapClick" text="Proceed to map" textAlignment="CENTER" textFill="WHITE">
          <font>
             <Font name="System Bold" size="14.0" />
          </font>
@@ -34,8 +30,23 @@
             <Cursor fx:constant="HAND" />
          </cursor>
          <graphic>
-            <FontAwesomeIconView fill="WHITE" glyphName="MAP" />
+            <FontAwesomeIconView fill="WHITE" glyphName="MAP" styleClass="map-icon" />
          </graphic>
       </Button>
+      <ImageView fitHeight="527.0" fitWidth="689.0" layoutX="-163.0" layoutY="36.0" opacity="0.6" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../images/logos/logo-blue-transparent.png" />
+         </image>
+      </ImageView>
+      <HBox layoutX="368.0" layoutY="456.0" prefHeight="18.0" prefWidth="88.0" spacing="5.0">
+         <children>
+            <Text fill="#222222" strokeType="OUTSIDE" strokeWidth="0.0" text="Made by" />
+            <Text fill="#333333" strokeType="OUTSIDE" strokeWidth="0.0" text="Salmane El Mourtaji">
+               <font>
+                  <Font name="System Bold" size="12.0" />
+               </font>
+            </Text>
+         </children>
+      </HBox>
    </children>
 </AnchorPane>

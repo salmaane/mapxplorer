@@ -122,6 +122,7 @@ public class SidebarController {
                 for(Route route : routes) {
                     int destIndex = route.getDestinationIndex();
                     Location place = places[destIndex];
+                    place.setRoute(route);
                     String name = place.getDisplayName().getText();
                     String distance = route.getDistanceMeters() + " m";
                     if (route.getDistanceMeters() > 1000) {
