@@ -2,6 +2,7 @@
     -fx-background-radius: 50;
     -fx-effect: dropshadow(two-pass-box, rgba(0,0,0,0.3), 12, 0, 0, 0);
     -fx-background-color: #fff;
+    -fx-spacing: 7;
 }
 .button {
     -fx-background-color: transparent;
@@ -13,4 +14,35 @@
 }
 .button:hover .icon {
     -fx-fill: #084dec;
+}
+
+.menu-button {
+    -fx-background-color: #fff;
+    -fx-border-style: solid;
+    -fx-border-color: #073bb0;
+    -fx-border-radius: 25px;
+    -fx-font-size: 1px;
+    -fx-cursor: hand;
+    -fx-padding: 0;
+}
+.menu-button:hover {
+    -fx-border-color: #084dec;
+}
+.menu-button .label {
+    -fx-text-fill: #073bb0;
+    -fx-font-weight: 900;
+    -fx-font-size: 13px;
+}
+.context-menu .label{
+    -fx-text-fill: #000;
+    -fx-font-weight: normal;
+    -fx-padding: 1 15 1 15;
+}
+.context-menu .menu-item:hover, .context-menu .menu-item:focused {
+    -fx-background-color: #225be5;
+    -fx-cursor: hand;
+}
+.context-menu .menu-item:hover .label, .context-menu .menu-item:focused .label{
+    -fx-text-fill: #fff;
+    -fx-font-weight: bold;
 }

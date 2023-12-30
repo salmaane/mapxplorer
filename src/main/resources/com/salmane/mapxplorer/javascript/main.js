@@ -2,12 +2,20 @@ const map = L.map('map', {zoomControl: false}).setView([33.589886, -7.603869], 1
 let osm = null;
 
 // Map Layer type
-function defaultMode() {
-    osm = L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
-        attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>'
-    }).addTo(map);
+osmLayer = L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png').addTo(map);
+
+googleSatelliteLayer = L.tileLayer('http://{s}.google.com/vt/lyrs=s,h&x={x}&y={y}&z={z}',{
+    subdomains:['mt0','mt1','mt2','mt3']
+});
+
+function switchToGoogleSatelliteLayer() {
+    map.removeLayer(osmLayer);
+    map.addLayer(googleSatelliteLayer);
 }
-defaultMode();
+function switchToOSMLayer() {
+    map.removeLayer(googleSatelliteLayer);
+    map.addLayer(osmLayer);
+}
 
 // Pan the map to the given location
 let searchMarker = null;

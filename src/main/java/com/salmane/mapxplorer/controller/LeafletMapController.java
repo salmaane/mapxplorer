@@ -56,6 +56,8 @@ public class LeafletMapController {
     @FXML
     public FontAwesomeIconView myLocationIcon;
     @FXML
+    public Button myLocationButton;
+    @FXML
     public Tooltip myLocationTooltip;
     @FXML
     public FontAwesomeIconView returnToLocationIcon;
@@ -63,6 +65,8 @@ public class LeafletMapController {
     public VBox placeInfoBox;
     @FXML
     public ScrollPane placeInfoScrollPane;
+    @FXML
+    public MenuButton layerMenuButton;
     public TranslateTransition detailsBoxTransitionUp;
     public TranslateTransition detailsBoxTransitionDown;
     private Location activeLocation = null;
@@ -96,6 +100,15 @@ public class LeafletMapController {
 
         initSearchbar();
         initPLaceInfoScrollPane();
+        initMenuButton();
+    }
+    private void initMenuButton() {
+        layerMenuButton.getItems().get(0).setOnAction((event -> {
+            engine.executeScript("switchToOSMLayer()");
+        }));
+        layerMenuButton.getItems().get(1).setOnAction((event -> {
+            engine.executeScript("switchToGoogleSatelliteLayer()");
+        }));
     }
 
     public void handleMarkerClick(String location) {
@@ -247,7 +260,6 @@ public class LeafletMapController {
                         imagesList.add(imageView);
                     }
                 }
-                System.out.println(imagesList.size());
                 return imagesList;
             }
         };
@@ -277,13 +289,15 @@ public class LeafletMapController {
                     autocompleteList,
                     activeLocation
             );
-            detailsBoxTransitionDown.play();
+            if(placeInfoScrollPane.getTranslateY() == 0) {
+                detailsBoxTransitionDown.play();
+            }
         });
         returnToLocationIcon.setOnMouseClicked(event -> locationController.GoToLocation(activeLocation));
 
         myLocationTooltip.setShowDelay(new Duration(100));
         myLocationTooltip.setShowDuration(new Duration(900));
-        myLocationIcon.setOnMouseClicked(event -> locationController.goToDeviceLocation(event, myLocation));
+        myLocationButton.setOnMouseClicked(event -> locationController.goToDeviceLocation(event, myLocation));
     }
     private void handleSearchEvent(KeyEvent event) {
         timer.cancel();
