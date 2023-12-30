@@ -4,7 +4,11 @@ import com.salmane.mapxplorer.controller.LeafletMapController;
 import com.salmane.mapxplorer.controller.LocationController;
 import com.salmane.mapxplorer.controller.SidebarController;
 import javafx.scene.control.TextField;
+import javafx.scene.image.Image;
 import javafx.scene.web.WebEngine;
+
+import java.util.HashMap;
+import java.util.Map;
 
 public class DataManager {
     private static DataManager instance;
@@ -15,6 +19,7 @@ public class DataManager {
     private WebEngine engine = null;
     private Location myLocation = null;
     private LeafletMapController leafletMapController;
+    private final Map<String, Image> imageCache = new HashMap<>();
 
 
     private DataManager() {}
@@ -67,5 +72,8 @@ public class DataManager {
     }
     public void setLeafletMapController(LeafletMapController leafletMapController) {
         this.leafletMapController = leafletMapController;
+    }
+    public Map<String, Image> getImageCache() {
+        return imageCache;
     }
 }

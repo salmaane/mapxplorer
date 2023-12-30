@@ -5,6 +5,10 @@
     -fx-effect: dropshadow(two-pass-box, rgba(0,0,0,0.3), 12, 0, 0, 0);
 }
 
+.infos-vbox {
+    -fx-background-color: #fff;
+}
+
 .close-info-box {
     -fx-font-family:"FontAwesome";
     -fx-fill: #555;
@@ -54,4 +58,18 @@
     -fx-border-style: solid;
     -fx-border-color: #225be5;
     -fx-border-radius: 15px;
+}
+
+.photos-grid {
+    -fx-background-color: #fff;
+}
+.photos-container Text {
+    -fx-font-size: 19px;
+    -fx-font-family: Calibri;
+    -fx-fill: #333;
+}
+.photos-container Separator .line{
+    -fx-background-color: #888;
+    -fx-pref-height: 1;
+    -fx-border-color: null ;
 }

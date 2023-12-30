@@ -99,7 +99,7 @@ public class SidebarController {
         searchButton.setText("");
         spinner.setVisible(true);
         searchButton.setDisable(true);
-        if(DataManager.getInstance().getLeafletMapController().placeInfoBox.getTranslateY() == 0) {
+        if(DataManager.getInstance().getLeafletMapController().placeInfoScrollPane.getTranslateY() == 0) {
             DataManager.getInstance().getLeafletMapController().detailsBoxTransitionDown.play();
         }
 
@@ -210,7 +210,7 @@ public class SidebarController {
             typesComboBox.valueProperty().setValue(null);
             radiusSlider.setValue(1);
             clearPLacesButton.setVisible(false);
-            if(DataManager.getInstance().getLeafletMapController().placeInfoBox.getTranslateY() == 0) {
+            if(DataManager.getInstance().getLeafletMapController().placeInfoScrollPane.getTranslateY() == 0) {
                 DataManager.getInstance().getLeafletMapController().detailsBoxTransitionDown.play();
             }
     }

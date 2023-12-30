@@ -13,16 +13,17 @@ import io.github.cdimascio.dotenv.Dotenv;
 import javafx.animation.PauseTransition;
 import javafx.animation.TranslateTransition;
 import javafx.application.Platform;
+import javafx.concurrent.Task;
 import javafx.concurrent.Worker;
 import javafx.fxml.FXML;
+import javafx.geometry.Insets;
 import javafx.geometry.Pos;
-import javafx.scene.control.Button;
-import javafx.scene.control.ListView;
-import javafx.scene.control.TextField;
-import javafx.scene.control.Tooltip;
+import javafx.scene.control.*;
+import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
@@ -39,9 +40,7 @@ import java.net.URISyntaxException;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
-import java.util.ArrayList;
-import java.util.Timer;
-import java.util.TimerTask;
+import java.util.*;
 import java.util.concurrent.CompletableFuture;
 
 public class LeafletMapController {
@@ -62,6 +61,8 @@ public class LeafletMapController {
     public FontAwesomeIconView returnToLocationIcon;
     @FXML
     public VBox placeInfoBox;
+    @FXML
+    public ScrollPane placeInfoScrollPane;
     public TranslateTransition detailsBoxTransitionUp;
     public TranslateTransition detailsBoxTransitionDown;
     private Location activeLocation = null;
@@ -73,6 +74,7 @@ public class LeafletMapController {
     String googleApiKey = Dotenv.load().get("GOOGLE_API_KEY");
     private ArrayList<PlacePredictions> possibleSuggestions;
     private static LeafletMapController instance;
+    private final Map<String, ImageView> imageCache = new HashMap<>();
 
     public void initialize() {
         engine = webview.getEngine();
@@ -93,13 +95,31 @@ public class LeafletMapController {
         });
 
         initSearchbar();
-        initPLaceInfoBox();
+        initPLaceInfoScrollPane();
     }
 
     public void handleMarkerClick(String location) {
         try {
             Location place = gson.fromJson(location, Location.class);
             preparePlaceInfoBox(place);
+
+            Task<List<ImageView>> imagesTask = loadImagesTask(place.getPhotos(), 200, 300);
+            imagesTask.setOnSucceeded(workerStateEvent -> {
+                    HBox hbox = new HBox(new Text("Photos"));
+                    Separator sep = new Separator();
+                    FlowPane photosGrid = new FlowPane();
+                    photosGrid.getStyleClass().add("photos-grid");
+                    photosGrid.getChildren().addAll(imagesTask.getValue());
+
+                    VBox photosContainer = new VBox(hbox, sep, photosGrid);
+                    photosContainer.getStyleClass().add("photos-container");
+                    photosContainer.setSpacing(5);
+
+                    placeInfoBox.getChildren().add(photosContainer);
+            });
+            Thread thread = new Thread(imagesTask);
+            thread.start();
+
             detailsBoxTransitionUp.play();
         } catch (Exception e) {
             System.out.println(e.getMessage());
@@ -109,12 +129,13 @@ public class LeafletMapController {
         placeInfoBox.getChildren().clear();
 
         FontAwesomeIconView closeInfoBox = new FontAwesomeIconView();
-        closeInfoBox.setGlyphName("CLOSE");
+        closeInfoBox.setGlyphName("ARROW_LEFT");
         closeInfoBox.setGlyphSize(22);
         closeInfoBox.getStyleClass().add("close-info-box");
         closeInfoBox.setOnMouseClicked((event) -> detailsBoxTransitionDown.play());
         HBox closeIconContainer = new HBox(closeInfoBox);
-        closeIconContainer.setAlignment(Pos.CENTER_RIGHT);
+        closeIconContainer.setAlignment(Pos.CENTER_LEFT);
+        closeIconContainer.setPadding(new Insets(4, 0, 0, 0));
         placeInfoBox.getChildren().add(closeIconContainer);
 
         VBox titleContainer = new VBox();
@@ -171,7 +192,7 @@ public class LeafletMapController {
         if(place.getWebsiteUri() != null) {
             FontAwesomeIconView websiteIcon = new FontAwesomeIconView();
             websiteIcon.getStyleClass().add("details-icon");
-            websiteIcon.setGlyphName("PHONE");
+            websiteIcon.setGlyphName("LINK");
             websiteIcon.setGlyphSize(20);
             Text website = new Text(place.getWebsiteUri());
             website.getStyleClass().add("details-text");
@@ -193,17 +214,43 @@ public class LeafletMapController {
             placeInfoBox.getChildren().add(typesContainer);
         }
     }
-    private void initPLaceInfoBox() {
-        placeInfoBox.setMaxWidth(610);
-        placeInfoBox.setTranslateY(690);
+    private void initPLaceInfoScrollPane() {
+        placeInfoScrollPane.setMaxWidth(640);
+        placeInfoScrollPane.setTranslateY(780);
 
-        detailsBoxTransitionUp = new TranslateTransition(Duration.millis(400), placeInfoBox);
-        detailsBoxTransitionUp.setFromY(690);
+        detailsBoxTransitionUp = new TranslateTransition(Duration.millis(400), placeInfoScrollPane);
+        detailsBoxTransitionUp.setFromY(780);
         detailsBoxTransitionUp.setToY(0);
 
-        detailsBoxTransitionDown = new TranslateTransition(Duration.millis(400), placeInfoBox);
+        detailsBoxTransitionDown = new TranslateTransition(Duration.millis(400), placeInfoScrollPane);
         detailsBoxTransitionDown.setFromY(0);
-        detailsBoxTransitionDown.setToY(690);
+        detailsBoxTransitionDown.setToY(780);
+
+        placeInfoScrollPane.setContent(placeInfoBox);
+    }
+    private String buildImageUrl(String photoReference, String apiKey, Integer maxWidth, Integer maxHeight) {
+        String endpoint = "https://places.googleapis.com/v1/%s/media?key=%s&maxWidthPx=%d&maxHeightPx=%d";
+        return String.format(endpoint, photoReference, apiKey, maxWidth, maxHeight);
+    }
+    private Task<List<ImageView>> loadImagesTask(Location.Photo[] photos, Integer imageWidth, Integer imageHeight) {
+        return new Task<List<ImageView>>() {
+            @Override
+            protected List<ImageView> call() throws Exception {
+                List<ImageView> imagesList = new ArrayList<>();
+                for (Location.Photo photo : photos) {
+                    String imageUrl = buildImageUrl(photo.getName(), googleApiKey, imageWidth, imageHeight);
+                    if(imageCache.containsKey(imageUrl)) {
+                        imagesList.add(imageCache.get(imageUrl));
+                    } else {
+                        ImageView imageView = new ImageView(imageUrl);
+                        imageCache.put(imageUrl, imageView);
+                        imagesList.add(imageView);
+                    }
+                }
+                System.out.println(imagesList.size());
+                return imagesList;
+            }
+        };
     }
 
     private void initSearchbar() {

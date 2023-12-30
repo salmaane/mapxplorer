@@ -2,21 +2,21 @@ package com.salmane.mapxplorer.model;
 
 public class Location {
     private String id;
-    private String formattedAddress; // ===================
+    private String formattedAddress;
     private String shortFormattedAddress;
-    private String[] types; // ==========================
+    private String[] types;
     private Coords location;
     private Viewport viewport;
     private Integer utcOffsetMinutes;
-    private DisplayName displayName;  // ==========================
-    private DisplayName primaryTypeDisplayName; // =======================
+    private DisplayName displayName;
+    private DisplayName primaryTypeDisplayName;
     private Photo[] photos;
-    private Double rating; // ==================
-    private Integer userRatingCount; // ===================
+    private Double rating;
+    private Integer userRatingCount;
     private String websiteUri;
     private Boolean goodForChildren;
-    private String nationalPhoneNumber; // ======================
-    private String internationalPhoneNumber; // =================
+    private String nationalPhoneNumber;
+    private String internationalPhoneNumber;
 
 
     public class Coords {

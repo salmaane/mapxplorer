@@ -6,10 +6,10 @@
 <?import javafx.scene.Cursor?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.ListView?>
+<?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.control.Tooltip?>
 <?import javafx.scene.layout.AnchorPane?>
-<?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.web.WebView?>
 
@@ -53,10 +53,10 @@
          <cursor>
             <Cursor fx:constant="HAND" />
          </cursor></FontAwesomeIconView>
-      <VBox fx:id="placeInfoBox" layoutX="560.8000000000001" layoutY="62.4" prefHeight="685.0" prefWidth="582.0" spacing="20.0" styleClass="infos-box-container" stylesheets="@../styles/placeInfosBox.css" AnchorPane.bottomAnchor="0.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="62.0">
-         <children>
-            <HBox fx:id="typesContainer" prefHeight="0.0" prefWidth="542.0" spacing="10.0" styleClass="types-container" />
-         </children>
-      </VBox>
+      <ScrollPane fx:id="placeInfoScrollPane" fitToHeight="true" fitToWidth="true" layoutX="495.3999938964844" layoutY="55.400001525878906" maxWidth="640.0" styleClass="infos-box-container" stylesheets="@../styles/placeInfosBox.css" AnchorPane.bottomAnchor="0.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="62.0">
+         <content>
+            <VBox fx:id="placeInfoBox" maxWidth="640.0" prefHeight="685.0" prefWidth="640.0" spacing="20.0" styleClass="infos-vbox" />
+         </content>
+      </ScrollPane>
    </children>
 </AnchorPane>
