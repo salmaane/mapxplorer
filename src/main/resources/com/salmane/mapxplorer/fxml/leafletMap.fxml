@@ -33,7 +33,7 @@
          <cursor>
             <Cursor fx:constant="HAND" />
          </cursor></FontAwesomeIconView>
-      <VBox alignment="CENTER" layoutX="11.2" layoutY="230.0" prefHeight="263.0" prefWidth="39.0" styleClass="nav-bar" stylesheets="@../styles/navigationBar.css" AnchorPane.leftAnchor="10.0">
+      <VBox alignment="CENTER" layoutX="11.2" layoutY="251.0" prefHeight="242.0" prefWidth="35.0" styleClass="nav-bar" stylesheets="@../styles/navigationBar.css" AnchorPane.leftAnchor="10.0">
          <children>
             <MenuButton fx:id="layerMenuButton" mnemonicParsing="false" text="L">
               <items>
@@ -44,9 +44,24 @@
                   <Font name="Verdana Bold" size="12.0" />
                </font>
             </MenuButton>
+            <Button fx:id="zoomInButton" mnemonicParsing="false" prefHeight="31.0" prefWidth="31.0">
+               <graphic>
+                  <FontAwesomeIconView fx:id="zoomInIcon" glyphName="SEARCH_PLUS" size="20" styleClass="icon">
+                     <cursor>
+                        <Cursor fx:constant="HAND" />
+                     </cursor>
+                  </FontAwesomeIconView>
+               </graphic>
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor>
+               <tooltip>
+                  <Tooltip fx:id="zoomInTooltip" autoHide="true" text="Zoom In" />
+               </tooltip>
+            </Button>
             <Button fx:id="myLocationButton" mnemonicParsing="false" prefHeight="31.0" prefWidth="31.0">
                <graphic>
-                  <FontAwesomeIconView fx:id="myLocationIcon" glyphName="MAP_PIN" size="22" styleClass="icon">
+                  <FontAwesomeIconView fx:id="myLocationIcon" glyphName="MAP_PIN" size="20" styleClass="icon">
                      <cursor>
                         <Cursor fx:constant="HAND" />
                      </cursor>
@@ -58,6 +73,36 @@
                <cursor>
                   <Cursor fx:constant="HAND" />
                </cursor>
+            </Button>
+            <Button fx:id="zoomOutButton" mnemonicParsing="false" prefHeight="31.0" prefWidth="31.0">
+               <graphic>
+                  <FontAwesomeIconView fx:id="zoomOutIcon" glyphName="SEARCH_MINUS" size="20" styleClass="icon">
+                     <cursor>
+                        <Cursor fx:constant="HAND" />
+                     </cursor>
+                  </FontAwesomeIconView>
+               </graphic>
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor>
+               <tooltip>
+                  <Tooltip fx:id="zoomOutTooltip" autoHide="true" text="Zoom Out" />
+               </tooltip>
+            </Button>
+            <Button fx:id="reloadMapButton" mnemonicParsing="false" prefHeight="31.0" prefWidth="31.0">
+               <graphic>
+                  <FontAwesomeIconView fx:id="reloadIcon" glyphName="REFRESH" size="20" styleClass="icon">
+                     <cursor>
+                        <Cursor fx:constant="HAND" />
+                     </cursor>
+                  </FontAwesomeIconView>
+               </graphic>
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor>
+               <tooltip>
+                  <Tooltip fx:id="reloadTooltip" autoHide="true" text="reload map" />
+               </tooltip>
             </Button>
          </children>
       </VBox>

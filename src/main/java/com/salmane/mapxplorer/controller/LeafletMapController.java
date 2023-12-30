@@ -67,6 +67,18 @@ public class LeafletMapController {
     public ScrollPane placeInfoScrollPane;
     @FXML
     public MenuButton layerMenuButton;
+    @FXML
+    public Tooltip zoomOutTooltip;
+    @FXML
+    public Tooltip zoomInTooltip;
+    @FXML
+    public Button zoomInButton;
+    @FXML
+    public Button zoomOutButton;
+    @FXML
+    public Button reloadMapButton;
+    @FXML
+    public Tooltip reloadTooltip;
     public TranslateTransition detailsBoxTransitionUp;
     public TranslateTransition detailsBoxTransitionDown;
     private Location activeLocation = null;
@@ -100,9 +112,30 @@ public class LeafletMapController {
 
         initSearchbar();
         initPLaceInfoScrollPane();
-        initMenuButton();
+        initNavigationBar();
     }
-    private void initMenuButton() {
+    private void initNavigationBar() {
+        initLayerMenuButton();
+
+        myLocationTooltip.setShowDelay(new Duration(100));
+        myLocationTooltip.setShowDuration(new Duration(900));
+        myLocationButton.setOnMouseClicked(event -> locationController.goToDeviceLocation(event, myLocation));
+
+        zoomInTooltip.setShowDelay(new Duration(100));
+        zoomOutTooltip.setShowDelay(new Duration(100));
+        zoomInTooltip.setShowDuration(new Duration(900));
+        zoomOutTooltip.setShowDuration(new Duration(900));
+        zoomInButton.setOnMouseClicked((event) -> engine.executeScript("zoomIn()"));
+        zoomOutButton.setOnMouseClicked((event) -> engine.executeScript("zoomOut()"));
+
+        reloadTooltip.setShowDelay(new Duration(100));
+        reloadTooltip.setShowDuration(new Duration(900));
+        reloadMapButton.setOnMouseClicked(event ->{
+            engine.executeScript("location.reload()");
+            DataManager.getInstance().getSidebarController().handleClearPLaces();
+        });
+    }
+    private void initLayerMenuButton() {
         layerMenuButton.getItems().get(0).setOnAction((event -> {
             engine.executeScript("switchToOSMLayer()");
         }));
@@ -294,10 +327,6 @@ public class LeafletMapController {
             }
         });
         returnToLocationIcon.setOnMouseClicked(event -> locationController.GoToLocation(activeLocation));
-
-        myLocationTooltip.setShowDelay(new Duration(100));
-        myLocationTooltip.setShowDuration(new Duration(900));
-        myLocationButton.setOnMouseClicked(event -> locationController.goToDeviceLocation(event, myLocation));
     }
     private void handleSearchEvent(KeyEvent event) {
         timer.cancel();

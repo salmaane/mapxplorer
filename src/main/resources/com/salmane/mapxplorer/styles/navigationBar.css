@@ -7,7 +7,6 @@
 .button {
     -fx-background-color: transparent;
     -fx-border-style: none;
-    -fx-background-radius: 50;
 }
 .icon {
     -fx-fill: #073bb0;

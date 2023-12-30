@@ -204,7 +204,7 @@ public class SidebarController {
         alert.showAndWait();
     }
     @FXML
-    private void handleClearPLaces() {
+    public void handleClearPLaces() {
             placesTable.getItems().clear();
             DataManager.getInstance().getEngine().executeScript("removePLacesMarkers()");
             typesComboBox.valueProperty().setValue(null);

@@ -1,6 +1,9 @@
 const map = L.map('map', {zoomControl: false}).setView([33.589886, -7.603869], 13);
 let osm = null;
 
+let zoomIn = () => map.zoomIn();
+let zoomOut = () => map.zoomOut();
+
 // Map Layer type
 osmLayer = L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png').addTo(map);
 
