@@ -17,12 +17,12 @@
             <Font name="Microsoft Sans Serif" size="28.0" />
          </font>
       </Text>
-      <Text fill="#222222" layoutX="464.0" layoutY="208.0" strokeType="OUTSIDE" strokeWidth="0.0" text="A JavaFX-powered desktop app for exploring maps, finding nearby places, and uncovering insightful location statistics with OpenStreetMap and Google maps data.&quot;" textAlignment="CENTER" wrappingWidth="399.6327705383301">
+      <Text fill="#222222" layoutX="464.0" layoutY="208.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Discover the world with MapXplorer, your go-to location-based exploration application. Whether you're planning a trip, finding nearby attractions, or simply exploring your surroundings, MapXplorer is here to guide you." textAlignment="CENTER" wrappingWidth="399.6327705383301">
          <font>
             <Font name="System Bold Italic" size="16.0" />
          </font>
       </Text>
-      <Button alignment="CENTER" contentDisplay="RIGHT" graphicTextGap="10.0" layoutX="590.0" layoutY="316.0" mnemonicParsing="false" onAction="#handleProceedToMapClick" text="Proceed to map" textAlignment="CENTER" textFill="WHITE">
+      <Button alignment="CENTER" contentDisplay="RIGHT" graphicTextGap="10.0" layoutX="590.0" layoutY="336.0" mnemonicParsing="false" onAction="#handleProceedToMapClick" text="Proceed to map" textAlignment="CENTER" textFill="WHITE">
          <font>
             <Font name="System Bold" size="14.0" />
          </font>

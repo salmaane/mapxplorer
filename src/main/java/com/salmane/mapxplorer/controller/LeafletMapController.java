@@ -246,7 +246,7 @@ public class LeafletMapController {
             websiteContainer.setSpacing(10);
             detailsContainer.getChildren().add(websiteContainer);
         }
-        if (place.getRoute().getDistanceMeters() != null) {
+        if (place.getRoute() != null) {
             FontAwesomeIconView distanceIcon = new FontAwesomeIconView();
             distanceIcon.getStyleClass().add("details-icon");
             distanceIcon.setGlyphName("ROAD");

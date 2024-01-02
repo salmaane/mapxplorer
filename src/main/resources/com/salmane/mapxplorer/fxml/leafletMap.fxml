@@ -24,7 +24,7 @@
             <Insets right="30.0" />
          </padding></TextField>
       <FontAwesomeIconView fill="#888888" glyphName="SEARCH" layoutX="26.0" layoutY="32.0" />
-      <ListView fx:id="autocompleteList" layoutX="58.0" layoutY="52.0" prefHeight="230.0" prefWidth="1132.0" stylesheets="@../styles/listview.css" visible="false" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0">
+      <ListView fx:id="autocompleteList" layoutX="58.0" layoutY="52.0" prefHeight="166.0" prefWidth="1132.0" stylesheets="@../styles/listview.css" visible="false" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0">
          <styleClass>
             <String fx:value="listview" />
             <String fx:value="list-cell" />
