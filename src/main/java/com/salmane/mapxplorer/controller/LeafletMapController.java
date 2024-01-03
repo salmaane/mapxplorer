@@ -9,7 +9,6 @@ import com.salmane.mapxplorer.model.DataManager;
 import com.salmane.mapxplorer.model.Location;
 import com.salmane.mapxplorer.model.PlacePredictions;
 import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView;
-import io.github.cdimascio.dotenv.Dotenv;
 import javafx.animation.PauseTransition;
 import javafx.animation.TranslateTransition;
 import javafx.application.Platform;
@@ -87,7 +86,7 @@ public class LeafletMapController {
     private final Gson gson = new Gson();
     private Timer timer = new Timer();
     private final HttpClient httpClient = HttpClient.newHttpClient();
-    String googleApiKey = Dotenv.load().get("GOOGLE_API_KEY");
+    String googleApiKey = DataManager.GOOGLE_API_KEY;
     private ArrayList<PlacePredictions> possibleSuggestions;
     private static LeafletMapController instance;
     private final Map<String, ImageView> imageCache = new HashMap<>();

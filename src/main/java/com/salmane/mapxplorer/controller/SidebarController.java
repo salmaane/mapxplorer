@@ -5,7 +5,6 @@ import com.salmane.mapxplorer.model.DataManager;
 import com.salmane.mapxplorer.model.Location;
 import com.salmane.mapxplorer.model.Route;
 import com.salmane.mapxplorer.model.TablePlaceInfo;
-import io.github.cdimascio.dotenv.Dotenv;
 import javafx.collections.ObservableList;
 import javafx.concurrent.Task;
 import javafx.event.ActionEvent;
@@ -43,7 +42,7 @@ public class SidebarController {
     public ProgressIndicator spinner;
     @FXML
     public Button clearPLacesButton;
-    private final Dotenv dotenv = Dotenv.load();
+    private final String googleApiKey = DataManager.GOOGLE_API_KEY;
     private final Gson gson = new Gson();
     @FXML
     public TableView<TablePlaceInfo> placesTable;
@@ -176,7 +175,7 @@ public class SidebarController {
             @Override
             protected Location[] call() throws Exception {
                 return DataManager.getInstance().getLocationController().getNearbyPlaces(
-                        dotenv.get("GOOGLE_API_KEY"), "*",
+                        googleApiKey, "*",
                         new String[]{String.join("_", selected)},
                         20, Double.valueOf(latTextField.getText()),
                         Double.valueOf(lonTextField.getText()),
@@ -190,7 +189,7 @@ public class SidebarController {
             @Override
             protected Route[] call() throws Exception {
                 return DataManager.getInstance().getLocationController().getRoutes(
-                        dotenv.get("GOOGLE_API_KEY"),
+                        googleApiKey,
                         "originIndex,destinationIndex,status,condition,distanceMeters,duration",
                         lat, lon, places
                 );
