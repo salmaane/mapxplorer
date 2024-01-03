@@ -1,6 +1,26 @@
 const map = L.map('map', {zoomControl: false}).setView([33.589886, -7.603869], 13);
 let osm = null;
 
+let neabySearchMarker = null;
+map.on('click', function (e) {
+    var latitude = e.latlng.lat;
+    var longitude = e.latlng.lng;
+
+    SidebarController.handleCoordsChange(latitude, longitude);
+
+    if(neabySearchMarker) neabySearchMarker.remove();
+    let icon = L.icon({
+        iconUrl: '../images/x-marker.png',
+        iconSize: [26, 26],
+    });
+    neabySearchMarker = L.marker([latitude, longitude], {
+        riseOnHover: true,
+        bounceOnAdd: false,
+        icon: icon,
+    }).addTo(map);
+    neabySearchMarker.bindPopup("Nearby search coords");
+});
+
 let zoomIn = () => map.zoomIn();
 let zoomOut = () => map.zoomOut();
 
@@ -63,7 +83,6 @@ function getDeviceLocation() {
         console.error("Geolocation is not supported by this browser");
     }
 } // Browser Geolocation (not working with webView)
-getDeviceLocation();
 
 // Pan map to user device location
 let currentLocationMarker = null;
@@ -88,11 +107,11 @@ function goToDeviceLocation(location, zoom = 13) {
 // Place nearby places markers on the map with a circle representing the area of those places
 let circle = null;
 let markers = [];
-function placeMarkers(locations, myLocation, radius) {
+function placeMarkers(locations, center, radius) {
     if(circle) circle.remove();
     if(markers) markers.map(marker => marker.remove())
 
-    circle = L.circle([myLocation.location.latitude, myLocation.location.longitude], {
+    circle = L.circle([center.location.latitude, center.location.longitude], {
         radius: radius,
         fillColor: '#65B741',
         fillOpacity: 0.12,
@@ -121,9 +140,7 @@ function placeMarkers(locations, myLocation, radius) {
         return marker;
     });
 
-    goToDeviceLocation(myLocation, undefined);
     map.fitBounds(circle.getBounds());
-
 }
 function removePLacesMarkers() {
     if(markers) markers.map(marker => marker.remove());

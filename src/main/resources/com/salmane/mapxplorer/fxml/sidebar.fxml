@@ -30,9 +30,9 @@
       <Separator layoutY="120.0" prefHeight="3.0" prefWidth="300.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" />
       <VBox fx:id="nearbyPlacesContainer" layoutX="89.0" layoutY="122.0" prefHeight="625.0" prefWidth="299.0" spacing="12.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
          <children>
-            <HBox fx:id="activateLocationMessage" prefHeight="100.0" prefWidth="200.0">
+            <HBox fx:id="activateLocationMessage" prefHeight="82.0" prefWidth="301.0">
                <children>
-                  <Label prefHeight="18.0" prefWidth="234.0" text="please activate your location by clicking :" textFill="RED">
+                  <Label prefHeight="17.0" prefWidth="303.0" text="please activate your location by clicking " textFill="RED">
                      <font>
                         <Font size="11.0" />
                      </font>
@@ -45,6 +45,11 @@
                         <Insets top="2.0" />
                      </HBox.margin>
                   </FontAwesomeIconView>
+                  <Label prefHeight="17.0" prefWidth="202.0" text="   or a map point" textFill="RED">
+                     <font>
+                        <Font size="11.0" />
+                     </font>
+                  </Label>
                </children>
             </HBox>
             <VBox spacing="2.0">
@@ -65,22 +70,32 @@
                      </cursor></Slider>
                </children>
             </VBox>
-            <HBox prefHeight="47.0" prefWidth="273.0" spacing="10.0">
+            <VBox spacing="2.0">
                <children>
-                  <VBox prefHeight="47.0" prefWidth="152.0" spacing="2.0">
+                  <HBox fx:id="selectedCoordsBox" alignment="CENTER_LEFT" prefHeight="100.0" prefWidth="200.0" spacing="10.0" visible="false">
                      <children>
-                        <Label text="Latitude" />
-                        <TextField fx:id="latTextField" disable="true" editable="false" focusTraversable="false" />
+                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="coords selected using" />
+                        <FontAwesomeIconView fx:id="selectedCoordsIcon" fill="RED" glyphName="CLOSE" size="14" />
                      </children>
-                  </VBox>
-                  <VBox prefHeight="47.0" prefWidth="155.0" spacing="2.0">
+                  </HBox>
+                  <HBox prefHeight="47.0" prefWidth="273.0" spacing="10.0">
                      <children>
-                        <Label text="Longiude" />
-                        <TextField fx:id="lonTextField" disable="true" editable="false" focusTraversable="false" />
+                        <VBox prefHeight="47.0" prefWidth="152.0" spacing="2.0">
+                           <children>
+                              <Label text="Latitude" />
+                              <TextField fx:id="latTextField" disable="true" editable="false" focusTraversable="false" />
+                           </children>
+                        </VBox>
+                        <VBox prefHeight="47.0" prefWidth="155.0" spacing="2.0">
+                           <children>
+                              <Label text="Longiude" />
+                              <TextField fx:id="lonTextField" disable="true" editable="false" focusTraversable="false" />
+                           </children>
+                        </VBox>
                      </children>
-                  </VBox>
+                  </HBox>
                </children>
-            </HBox>
+            </VBox>
             <Button fx:id="searchButton" alignment="CENTER" contentDisplay="CENTER" disable="true" mnemonicParsing="false" onAction="#handleSearchButtonClick" prefHeight="27.0" prefWidth="319.0" styleClass="search-button" text="Search">
                <cursor>
                   <Cursor fx:constant="HAND" />

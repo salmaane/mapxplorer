@@ -5,6 +5,7 @@ import com.salmane.mapxplorer.model.DataManager;
 import com.salmane.mapxplorer.model.Location;
 import com.salmane.mapxplorer.model.Route;
 import com.salmane.mapxplorer.model.TablePlaceInfo;
+import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView;
 import javafx.collections.ObservableList;
 import javafx.concurrent.Task;
 import javafx.event.ActionEvent;
@@ -50,6 +51,10 @@ public class SidebarController {
     public TableColumn<TablePlaceInfo, String> nameCol;
     @FXML
     public TableColumn<TablePlaceInfo, String> distanceCol;
+    @FXML
+    public HBox selectedCoordsBox;
+    @FXML
+    public FontAwesomeIconView selectedCoordsIcon;
 
     public void initialize() {
         DataManager.getInstance().setSidebarController(this);
@@ -131,9 +136,15 @@ public class SidebarController {
                 }
                 placesTable.setItems(placeInfoList);
 
+                Location center = new Location();
+                Location.Coords coords = center.new Coords();
+                coords.setLatitude(Double.valueOf(latTextField.getText()));
+                coords.setLongitude(Double.valueOf(lonTextField.getText()));
+                center.setLocation(coords);
+
                 engine.executeScript("placeMarkers("
                         + gson.toJson(places)
-                        + "," + gson.toJson(DataManager.getInstance().getMyLocation())
+                        + "," + gson.toJson(center)
                         + "," + radiusSlider.getValue() * 1_000
                 +")");
 
@@ -206,6 +217,7 @@ public class SidebarController {
     @FXML
     public void handleClearPLaces() {
             placesTable.getItems().clear();
+            placesNumber.setVisible(false);
             DataManager.getInstance().getEngine().executeScript("removePLacesMarkers()");
             typesComboBox.valueProperty().setValue(null);
             radiusSlider.setValue(1);
@@ -213,6 +225,16 @@ public class SidebarController {
             if(DataManager.getInstance().getLeafletMapController().placeInfoScrollPane.getTranslateY() == 0) {
                 DataManager.getInstance().getLeafletMapController().detailsBoxTransitionDown.play();
             }
+            selectedCoordsBox.setVisible(false);
+    }
+
+    public void handleCoordsChange(String lat, String lon) {
+        latTextField.setText(lat);
+        lonTextField.setText(lon);
+        enableControls();
+        selectedCoordsIcon.setGlyphName("CLOSE");
+        selectedCoordsIcon.setGlyphStyle("-fx-fill: red");
+        selectedCoordsBox.setVisible(true);
     }
 
 }

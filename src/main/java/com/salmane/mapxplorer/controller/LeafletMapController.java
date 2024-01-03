@@ -106,6 +106,7 @@ public class LeafletMapController {
                 instance = this; 
                 JSObject window = (JSObject) engine.executeScript("window");
                 window.setMember("LeafletMapController", instance);
+                window.setMember("SidebarController", DataManager.getInstance().getSidebarController());
             }
         });
 
@@ -118,7 +119,12 @@ public class LeafletMapController {
 
         myLocationTooltip.setShowDelay(new Duration(100));
         myLocationTooltip.setShowDuration(new Duration(900));
-        myLocationButton.setOnMouseClicked(event -> locationController.goToDeviceLocation(event, myLocation));
+        myLocationButton.setOnMouseClicked(event -> {
+            locationController.goToDeviceLocation(event, myLocation);
+            DataManager.getInstance().getSidebarController().selectedCoordsIcon.setGlyphName("MAP_PIN");
+            DataManager.getInstance().getSidebarController().selectedCoordsIcon.setGlyphStyle("-fx-fill: #225be5");
+            DataManager.getInstance().getSidebarController().selectedCoordsBox.setVisible(true);
+        });
 
         zoomInTooltip.setShowDelay(new Duration(100));
         zoomOutTooltip.setShowDelay(new Duration(100));
