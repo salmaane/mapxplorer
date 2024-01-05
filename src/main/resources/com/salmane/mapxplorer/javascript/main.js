@@ -107,9 +107,11 @@ function goToDeviceLocation(location, zoom = 13) {
 // Place nearby places markers on the map with a circle representing the area of those places
 let circle = null;
 let markers = [];
-function placeMarkers(locations, center, radius) {
+let locationCircles = [];
+function placeMarkers(locations, center, radius, markerRadius) {
     if(circle) circle.remove();
-    if(markers) markers.map(marker => marker.remove())
+    if(markers) markers.map(marker => marker.remove());
+    if(locationCircles) locationCircles.map(circle => circle.remove());
 
     circle = L.circle([center.location.latitude, center.location.longitude], {
         radius: radius,
@@ -127,8 +129,9 @@ function placeMarkers(locations, center, radius) {
         popupAnchor: [1, -34],
         shadowSize: [41, 41]
     });
+
     markers = locations.map(location => {
-        let marker =  L.marker([location.location.latitude, location.location.longitude], {
+        return L.marker([location.location.latitude, location.location.longitude], {
             riseOnHover: true,
             bounceOnAdd: true,
             icon: greenIcon,
@@ -136,8 +139,16 @@ function placeMarkers(locations, center, radius) {
         }).on('click', function () {
             LeafletMapController.handleMarkerClick(JSON.stringify(location));
         }).addTo(map);
+    });
 
-        return marker;
+    locationCircles = locations.map(location => {
+        return L.circle([location.location.latitude, location.location.longitude], {
+            radius: markerRadius,
+            fillColor: '#0952ff',
+            fillOpacity: 0.12,
+            color: '#163020',
+            weight: 1,
+        }).addTo(map);
     });
 
     map.fitBounds(circle.getBounds());

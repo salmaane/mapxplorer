@@ -40,7 +40,6 @@ public class MainController {
 
         checkValidKeyTask.setOnSucceeded((workerStateEvent) -> {
             String key = checkValidKeyTask.getValue();
-            System.out.println(key);
 
             if(!Objects.equals(key, "\"OK\"")) {
                 errorText.setVisible(true);
@@ -68,7 +67,7 @@ public class MainController {
                     HttpRequest getRequest = HttpRequest.newBuilder()
                             .uri(new URI(
                                     "https://maps.googleapis.com/maps/api/place/autocomplete/json?"
-                                            + "key=" + apiKeyTextField.getText()
+                                            + "key=" + key.trim()
                                             + "&input=" + "casa"
                             )).GET()
                             .build();

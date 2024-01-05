@@ -22,13 +22,13 @@
 
 <AnchorPane fx:id="sidebar" minHeight="500.0" minWidth="-Infinity" prefHeight="746.0" prefWidth="317.0" styleClass="sidebar" stylesheets="@../styles/sidebar.css" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.salmane.mapxplorer.controller.SidebarController">
     <children>
-      <ImageView fitHeight="79.0" fitWidth="147.0" layoutX="83.0" layoutY="14.0" pickOnBounds="true" preserveRatio="true" AnchorPane.leftAnchor="83.0" AnchorPane.rightAnchor="90.29591369628906" AnchorPane.topAnchor="14.0">
+      <ImageView fitHeight="66.0" fitWidth="115.0" layoutX="105.0" layoutY="14.0" pickOnBounds="true" preserveRatio="true" AnchorPane.leftAnchor="105.0" AnchorPane.rightAnchor="106.14595031738281" AnchorPane.topAnchor="14.0">
          <image>
             <Image url="@../images/logos/logo-blue-transparent.png" />
          </image>
       </ImageView>
-      <Separator layoutY="120.0" prefHeight="3.0" prefWidth="300.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" />
-      <VBox fx:id="nearbyPlacesContainer" layoutX="89.0" layoutY="122.0" prefHeight="625.0" prefWidth="299.0" spacing="12.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
+      <Separator layoutY="102.0" prefHeight="3.0" prefWidth="300.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="6.400000000000034" />
+      <VBox fx:id="nearbyPlacesContainer" layoutY="104.0" prefHeight="642.0" prefWidth="310.0" spacing="12.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="7.0">
          <children>
             <HBox fx:id="activateLocationMessage" prefHeight="82.0" prefWidth="301.0">
                <children>
@@ -63,11 +63,21 @@
             </VBox>
             <VBox prefHeight="44.0" prefWidth="318.0" spacing="2.0">
                <children>
-                  <Label fx:id="radiusLabel" prefHeight="19.0" prefWidth="270.0" text="Choose circle radius - 1 Km" />
-                  <Slider fx:id="radiusSlider" blockIncrement="2.0" disable="true" majorTickUnit="10.0" max="20.0" min="1.0" minorTickCount="10" showTickMarks="true" snapToTicks="true" value="1.0">
+                  <Label fx:id="radiusLabel" prefHeight="19.0" prefWidth="270.0" text="Distance circle radius - 1 Km" />
+                  <Slider fx:id="radiusSlider" blockIncrement="2.0" disable="true" majorTickUnit="10.0" max="20.0" min="1.0" minorTickCount="10" snapToTicks="true" value="1.0">
                      <cursor>
                         <Cursor fx:constant="HAND" />
                      </cursor></Slider>
+               </children>
+            </VBox>
+            <VBox prefHeight="8.0" prefWidth="301.0" spacing="2.0">
+               <children>
+                  <Label fx:id="placeRadiusLabel" prefHeight="19.0" prefWidth="270.0" text="Place circle radius - 0 m" />
+                  <Slider fx:id="markerRadiusSlider" blockIncrement="50.0" disable="true" majorTickUnit="50.0" max="1000.0" minorTickCount="50" snapToTicks="true">
+                     <cursor>
+                        <Cursor fx:constant="HAND" />
+                     </cursor>
+                  </Slider>
                </children>
             </VBox>
             <VBox spacing="2.0">
@@ -134,7 +144,7 @@
             <Insets bottom="8.0" left="8.0" right="8.0" top="8.0" />
          </padding>
       </VBox>
-      <Text fill="#333333" layoutX="6.0" layoutY="114.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Nearby places">
+      <Text fill="#333333" layoutX="6.0" layoutY="96.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Nearby places">
          <font>
             <Font name="System Bold" size="13.0" />
          </font>

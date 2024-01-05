@@ -55,12 +55,17 @@ public class SidebarController {
     public HBox selectedCoordsBox;
     @FXML
     public FontAwesomeIconView selectedCoordsIcon;
+    @FXML
+    public Label placeRadiusLabel;
+    @FXML
+    public Slider markerRadiusSlider;
 
     public void initialize() {
         DataManager.getInstance().setSidebarController(this);
         DataManager.getInstance().setLatLonFields(latTextField, lonTextField);
         initTypesCombobox();
         initRadiusSlider();
+        initMarkerRadiusSlider();
         initPLacesTableView();
     }
 
@@ -74,12 +79,18 @@ public class SidebarController {
     }
     private void initRadiusSlider() {
         radiusSlider.valueProperty().addListener((observable, oldValue, newValue) -> {
-            radiusLabel.setText(String.format("Choose circle radius - %.0f km", newValue));
+            radiusLabel.setText(String.format("Distance circle radius - %.0f km", newValue));
+        });
+    }
+    private void initMarkerRadiusSlider() {
+        markerRadiusSlider.valueProperty().addListener((observable, oldValue, newValue) -> {
+            placeRadiusLabel.setText(String.format("Place circle radius - %.0f m", newValue));
         });
     }
     public void enableControls() {
         typesComboBox.setDisable(false);
         radiusSlider.setDisable(false);
+        markerRadiusSlider.setDisable(false);
         searchButton.setDisable(false);
         placesTable.setDisable(false);
         nearbyPlacesContainer.getChildren().remove(activateLocationMessage);
@@ -146,6 +157,7 @@ public class SidebarController {
                         + gson.toJson(places)
                         + "," + gson.toJson(center)
                         + "," + radiusSlider.getValue() * 1_000
+                        + "," + markerRadiusSlider.getValue()
                 +")");
 
                 // UI UPDATES
