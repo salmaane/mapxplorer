@@ -27,3 +27,11 @@
 .button:hover .glyph-icon {
     -fx-fill: #073bb0;
 }
+
+.spinner:hover {
+    -fx-accent:  #073bb0;
+}
+
+.text-field:focused {
+    -fx-border-color:  #073bb0;
+}

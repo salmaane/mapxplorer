@@ -3,7 +3,6 @@ package com.salmane.mapxplorer.model;
 import com.salmane.mapxplorer.controller.LeafletMapController;
 import com.salmane.mapxplorer.controller.LocationController;
 import com.salmane.mapxplorer.controller.SidebarController;
-import io.github.cdimascio.dotenv.Dotenv;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.web.WebEngine;
@@ -12,7 +11,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class DataManager {
-    public static String GOOGLE_API_KEY = Dotenv.load().get("GOOGLE_API_KEY");
+    public static String GOOGLE_API_KEY;
     private static DataManager instance;
     private SidebarController sidebarController;
     private LocationController locationController;
@@ -25,6 +24,10 @@ public class DataManager {
 
 
     private DataManager() {}
+
+    public static void setGoogleApiKey(String googleApiKey) {
+        GOOGLE_API_KEY = googleApiKey;
+    }
 
     public static DataManager getInstance() {
         if (instance == null) {

@@ -32,7 +32,7 @@
          <children>
             <HBox fx:id="activateLocationMessage" prefHeight="82.0" prefWidth="301.0">
                <children>
-                  <Label prefHeight="17.0" prefWidth="303.0" text="please activate your location by clicking " textFill="RED">
+                  <Label prefHeight="17.0" prefWidth="238.0" text="please activate your location by  " textFill="RED">
                      <font>
                         <Font size="11.0" />
                      </font>
